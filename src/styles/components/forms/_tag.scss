@@ -1,0 +1,41 @@
+/// form-control 中的标签
+
+$form-tag-background: $lighter-gray !default;
+$form-tag-icon-color: $medium-gray !default;
+
+@mixin generate-form-tags {
+  @include block(form) {
+        // tags
+    @include element(tags) {
+      @include clearfix;
+      position: relative;
+      display: inline-block;
+      white-space: normal;
+    }
+
+    @include element(tag) {
+      display: inline-block;
+      padding: 0 .4em;
+      user-select: none;
+      background-color: $form-tag-background;
+      background-clip: padding-box;
+      border: 2px solid transparent;
+    }
+
+    @include element(tag-title, tag-close) {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    @include element(tag-title) {
+      cursor: default;
+    }
+
+    @include element(tag-close) {
+      @include square(.9rem);
+      cursor: pointer;
+      margin-left: .5em;
+      fill: $form-tag-icon-color;
+    }
+  }
+}

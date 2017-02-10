@@ -1,0 +1,51 @@
+$media-object-margin-bottom: $global-margin !default;
+
+$media-object-section-padding: $global-padding !default;
+
+@mixin media-object-base {
+  display: block;
+  margin: $media-object-margin-bottom;
+}
+
+@mixin media-object-section {
+  display: table-cell;
+  vertical-align: top;
+
+  &:first-child {
+    padding-right: $media-object-section-padding;
+  }
+
+  &:last-child:not(:nth-child(2)) {
+    padding-left: $media-object-section-padding;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+@mixin generate-media-object {
+  @include block(media-object) {
+    @include media-object-base;
+
+    img {
+      max-width: none;
+    }
+
+    @include element(section) {
+      @include media-object-section;
+
+      @include modifier(middle) {
+        vertical-align: middle;
+      }
+
+      @include modifier(bottom) {
+        vertical-align: bottom;
+      }
+
+      @include modifier(expanded) {
+        width: 100%;
+      }
+    }
+  }
+}

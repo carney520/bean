@@ -1,0 +1,353 @@
+// button components
+
+////
+/// @access public
+/// @author ivan
+/// @date 2016.9.13
+////
+
+/// size. the same to form-size
+/// @type {List}
+$button-sizes: (
+  tiny: convert-to-rem(10px),
+  small: convert-to-rem(14px),
+  default: convert-to-rem(16px),
+  large: convert-to-rem(20px)
+) !default;
+
+//relative
+$button-padding-vertial: .22em !default;
+$button-padding-horizontal: 1em !default;
+
+$button-lineheight: $global-lineheight !default;
+
+$button-radius: 2px !default;
+
+/// default color
+$button-color: $black !default;
+$button-background: $lighter-gray !default;
+$button-border-width: 1px !default;
+$button-background-hover: $light-gray !default;
+
+$button-color-at-light: $black !default;
+$button-color-at-dark: $white !default;
+
+$button-font-weight: 500 !default;
+
+$button-disabled-opacity: .25 !default;
+$button-loading-opacity: .5 !default;
+
+$button-checked-shadow: inset 0 1px 2px 0 rgba(0,0,0,.14),inset 0 3px 1px -2px rgba(0,0,0,.2),inset 0 1px 5px 0 rgba(0,0,0,.12) !default;
+
+/// solid
+$button-solid-shadow: 0 1px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12) !default;
+
+/// transition
+$button-transition: box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1) !default;
+
+@mixin button-base {
+  display: inline-block;
+  position: relative;
+  min-width: 64px;
+  margin: 0;
+  padding: $button-padding-vertial $button-padding-horizontal;
+  line-height: $button-lineheight;
+
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-decoration: none;
+
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  outline: 0;
+
+  transition: background-color .2s ease-in-out;
+
+  //default size
+  font-size: map-get($button-sizes, default);
+  font-weight: $button-font-weight;
+
+  // default style
+  box-shadow: $button-solid-shadow;
+  border: none;
+  border-radius: $button-radius;
+  background-color: $button-background;
+  &:active,
+  &:hover {
+    background-color: $button-background-hover;
+  }
+
+  // icon
+  .icon {
+    fill: currentColor;
+  }
+}
+
+/// expanded button
+/// @access public
+@mixin button-expand {
+  display: block;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+@mixin button-circle {
+  $height: calc(1em * #{$button-lineheight} + #{$button-padding-vertial * 2} + 2px);
+
+  @include square($height);
+  padding: 0;
+  min-width: 0;
+  border-radius: 50%;
+
+  .icon {
+    margin: 0;
+  }
+}
+
+/// button disabled status
+@mixin button-disabled {
+  @include plain-hover-focus-active {
+    opacity: $button-disabled-opacity;
+    background-color: $button-background-hover !important;
+    color: $dark-gray !important;
+    border-color: $dark-gray !important;
+    box-shadow: none !important;
+    cursor: not-allowed;
+  }
+}
+
+// @mixin button-loading-icon {
+//   display: inline-block;
+//   width: 1em;
+//   height: 1em;
+//   margin-right: .4em;
+//   border: 2px solid $lightest-gray;
+//   border-top: 2px solid currentColor;
+//   border-radius: 50%;
+//   vertical-align: middle;
+//   animation: .8s linear 0s infinite rotate360;
+// }
+
+@mixin button-loading {
+  cursor: wait;
+  opacity: $button-loading-opacity;
+}
+
+@mixin button-checked {
+  box-shadow: $button-checked-shadow;
+}
+
+// default outline style
+@mixin button-outline {
+  $hover-color: darken($button-background-hover, 10%);
+
+  color: $hover-color;
+  border: $button-border-width solid $hover-color;
+  background-color: transparent;
+  box-shadow: none;
+
+  &:hover,
+  &:active,
+  &.is-checked {
+    background-color: $hover-color;
+    color: $white;
+  }
+}
+
+@mixin button-dashed {
+  color: $dark-gray;
+  border-color: $dark-gray;
+  border-width: $button-border-width;
+  border-style: dashed;
+
+  &:hover,
+  &:active,
+  &.is-checked {
+    $hover-color: darken($button-background-hover, 20%);
+    color: $hover-color;
+    border-color: $hover-color;
+  }
+
+  @include plain-hover-focus-active {
+    box-shadow: none;
+    background-color: transparent !important;
+  }
+}
+
+
+@mixin button-flat {
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+
+  &:hover,
+  &:active,
+  &.is-checked {
+    background-color: $button-background-hover;
+  }
+}
+
+
+
+/// filled  style button
+/// generate button color rules
+/// inspired by foundation
+@mixin button-style(
+  $background: $button-background
+) {
+
+  $color: foreground($background, $button-color-at-light, $button-color-at-dark);
+  $background-hover: scale-color($background, $lightness: -15%);
+
+  border-color: $background;
+  background-color: $background;
+  color: $color;
+
+  &:hover,
+  &:active,
+  &.is-checked {
+    background-color: $background-hover;
+    border-color: $background-hover;
+  }
+}
+
+/// outline style button
+@mixin button-outline-style(
+  $color: $button-color
+) {
+  background-color: transparent;
+  border-color: $color;
+  color: $color;
+
+  &:hover,
+  &:active,
+  &.is-checked {
+    background-color: $color;
+    color: $button-color-at-dark;
+  }
+}
+
+
+/// dashed style button
+@mixin button-dashed-style($color: $button-color) {
+  color: $dark-gray;
+  border-color: $dark-gray;
+
+  &:hover,
+  &:active,
+  &.is-checked {
+    color: $color;
+    border-color: $color;
+  }
+}
+
+/// flat style button
+@mixin button-flat-style($color: $button-color) {
+  color: $color;
+  background-color: transparent;
+
+  &:hover,
+  &:active,
+  &.is-checked {
+    background-color: rgba($color, .2);
+  }
+}
+
+
+/// generate button classes
+/// @access public
+@mixin generate-button {
+  @include block(button) {
+    @include button-base;
+
+    // -- size --
+    @each $size, $value in map-remove($button-sizes, default) {
+      @include modifier($size) {
+        font-size: convert-to-rem($value);
+      }
+    }
+    //expanded
+    @include modifier(expanded, block) {
+      @include button-expand;
+    }
+
+    // -- status --
+    // disable
+    @include modifier(disabled, '[disabled]', '.is-disabled') {
+      @include button-disabled;
+    }
+
+    // checked
+    @include state(is-checked) {
+      @include button-checked;
+    }
+
+    // loading
+    @include modifier(loading, '.is-loading') {
+      @include button-loading;
+    }
+
+    // -- type --
+    //ouline
+    @include modifier(outline) {
+      @include button-outline;
+    }
+
+    //flat
+    @include modifier(flat) {
+      @include button-flat;
+    }
+
+    //dashed
+    @include modifier(dashed) {
+      @include button-dashed;
+    }
+
+    //circle
+    @include modifier(circle) {
+      @include button-circle;
+    }
+  }
+
+  // default theme
+  @include generate-button-appearance;
+  @include generate-button-theme;
+}
+
+
+
+
+@mixin generate-button-appearance {
+  @include block(button) {
+    //define color
+    @each $type, $color in $global-palette {
+      // solid
+      @include modifier($type) {
+        @include button-style($color);
+      }
+
+      @include modifier-and($type, outline) {
+        @include button-outline-style($color);
+      }
+
+      @include modifier-and($type, dashed) {
+        @include button-dashed-style($color);
+      }
+
+      @include modifier-and($type, flat) {
+        @include button-flat-style($color);
+      }
+    }
+  }
+}
+
+@mixin generate-button-theme {
+  @include each-theme {
+    @include theme($current-theme-name) {
+      @include generate-button-appearance;
+    }
+  }
+}

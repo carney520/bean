@@ -1,0 +1,33 @@
+/// 级联选择器
+
+
+@mixin cascader-menu {
+  display: inline-block !important;
+  min-height: 164px;
+  min-width: 90px;
+  overflow-y: auto;
+  vertical-align: top;
+
+  &:not(:first-child) {
+    border-left: 1px solid $lighter-gray;
+  }
+}
+
+@mixin cascader-menu-item {
+  > .icon {
+    margin-left: 1em;
+    fill: $light-gray;
+  }
+}
+
+@mixin generate-cascader {
+  @include block(cascader-menus) {
+    @include element(menu) {
+      @include cascader-menu;
+    }
+
+    @include element(menu-item) {
+      @include cascader-menu-item;
+    }
+  }
+}

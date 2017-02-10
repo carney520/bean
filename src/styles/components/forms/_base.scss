@@ -1,0 +1,118 @@
+/**
+* 控件的基础样式
+* 设置控件的大小，布局
+*/
+
+/// font-size
+/// @type {Map}
+$form-control-sizes: (
+  tiny: convert-to-rem(10px),
+  small: convert-to-rem(14px),
+  default: convert-to-rem(16px),
+  large: convert-to-rem(20px)
+) !default;
+
+/// 控件的间隔
+$form-control-spacing: .8em !default;
+$form-control-spacing-vertical: .5em !default;
+
+
+/// form 元素的基本掩饰
+@mixin form-base {
+}
+
+/// 所有控件都应该放在form group 中，它影响表单的布局
+@mixin form-group-base {
+  margin-bottom: $form-control-spacing-vertical;
+}
+
+/// inline 布局
+@mixin form-group-inline {
+  display: inline-block;
+  // margin-bottom: 0;
+  vertical-align: top;
+  white-space: nowrap;
+  &:not(:last-child) {
+    padding-right: $form-control-spacing;
+  }
+}
+
+@mixin form-group-wrapper-inline {
+  display: inline-block;
+  width: auto;
+  // 为了对齐helptext
+  vertical-align: top;
+}
+
+/// grid 布局
+@mixin form-group-grid {
+  @include g-row;
+}
+
+@mixin form-area {
+  display: block;
+  background-color: $lightest-gray;
+  border-radius: 3px;
+}
+
+@mixin form-legend {
+}
+
+/// 控件尺寸属性
+/// @private
+@mixin form-control-size($form-control-font-size) {
+  font-size: $form-control-font-size;
+}
+
+/// 生成控件的尺寸,通过font-size 来控制
+/// @private
+@mixin form-control-sizes {
+  // 默认尺寸
+  @include form-control-size(map-get($form-control-sizes, default));
+  @each $name, $size in map-remove($form-control-sizes, default) {
+    @include modifier($name) {
+      @include form-control-size($size);
+    }
+  }
+}
+
+
+/// 生成样式
+/// @public
+@mixin generate-form-base {
+  @include block(form) {
+    @include form-base;
+
+    /// form -group
+    @include element(group) {
+      @include form-group-base;
+
+      @include shadow(inline) {
+        @include form-group-inline;
+      }
+
+      @include shadow(grid) {
+        @include form-group-grid;
+      }
+    }
+
+    @include element(group-wrapper) {
+      @include shadow(inline) {
+        @include form-group-wrapper-inline;
+      }
+    }
+
+    @include element(area) {
+      @include form-area;
+    }
+
+    @include element(legend) {
+      @include form-legend;
+    }
+
+    /// control size
+    @include element(label, static, control, check, switch, slider, input-group) {
+      @include form-control-sizes;
+    }
+  }
+}

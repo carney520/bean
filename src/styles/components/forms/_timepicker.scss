@@ -1,0 +1,91 @@
+$timepicker-option-lineheight: 1.8 !default;
+// 显示在视口的数据项数
+$timepicker-option-visible-count: 5 !default;
+
+@mixin generate-timepicker {
+  @include block(time-picker) {
+    text-align: center;
+    min-width: 10.5em;
+
+    @include state(hide-disabled) {
+      min-width: 7em;
+    }
+
+    @include element(section) {
+      display: inline-block;
+      width: 3.5em;
+      overflow: hidden;
+      vertical-align: top;
+    }
+
+    @include element(title) {
+      color: $dark-gray;
+      font-size: .8em;
+    }
+
+    @include element(select) {
+      // 必须为select设置定位，不然offsetParent 将出错
+      position: relative;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      // 显示六个数据项
+      max-height: $timepicker-option-lineheight * 1em * $timepicker-option-visible-count;
+      overflow: hidden;
+
+      &:hover {
+        overflow-y: auto;
+      }
+      // 为第一个和最后一个数据项添加间隔，使其可以滚动到中间
+      &::before,
+      &::after {
+        content: '';
+        display: block;
+        height: 1em * $timepicker-option-lineheight * (floor($timepicker-option-visible-count / 2));
+      }
+    }
+
+    @include element(option) {
+      display: block;
+      width: 100%;
+      line-height: $timepicker-option-lineheight;
+      // 精确高度，一般情况下height = lineheight * font-size. 但是浏览器在计算是会忽略小数部分, 比如16px * 1.8 = 28.8px, 浏览器计算为28px，
+      // 如果数据项多时就会出现一个间隔, 所以这里显示声明高度
+      height: 1em * $timepicker-option-lineheight;
+
+      /** 可以避免滚动条导致选项变形，宽度被挤压 **/
+      box-sizing: content-box;   // width就是内容区域的宽度
+      padding-left: 1.1em;       // 我也不知道原理是什么，总之确保没有空间可以挤下滚动条
+
+      color: $dark-gray;
+      text-align: left;
+      user-select: none;
+      transition: background-color .2s ease-in;
+      cursor: pointer;
+
+      @include state(is-active, is-actived) {
+        background-color: lighten($global-primary, 3%) !important;
+        color: $white;
+        font-weight: bolder;
+      }
+
+      @include state(is-disabled) {
+        background-color: $lighter-gray;
+        cursor: not-allowed;
+        color: $medium-gray;
+      }
+
+      @include shadow(hide-disabled) {
+        @include state(is-disabled) {
+          display: none;
+        }
+      }
+
+      &:hover,
+      &:active {
+        background-color: $lighter-gray;
+      }
+    }
+  }
+}

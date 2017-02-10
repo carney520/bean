@@ -1,0 +1,34 @@
+
+%list-unstyled {
+  @include list-unstyled;
+  margin-left: 0;
+}
+
+@mixin list-inline-base {
+  @extend %list-unstyled;
+  & > li {
+    display: inline-block;
+  }
+}
+
+@mixin list-vertical-top {
+  & > li {
+    vertical-align: top;
+  }
+}
+
+@mixin generate-list {
+  @include block(list) {
+    @include modifier(inline) {
+      @include list-inline-base;
+    }
+
+    @include modifier(top) {
+      @include list-vertical-top;
+    }
+
+    @include modifier(unstyle) {
+      @extend %list-unstyled;
+    }
+  }
+}

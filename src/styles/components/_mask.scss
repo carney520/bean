@@ -1,0 +1,35 @@
+
+$mask-background: rgba($black, .1) !default;
+
+@mixin mask-base {
+  position: relative;
+}
+
+@mixin mask-mask {
+  display: none;
+  position: absolute;
+  top:0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: $mask-background;
+  cursor: not-allowed;
+  z-index: 1;
+}
+
+@mixin generate-mask {
+  @include block(mask) {
+    @include mask-base;
+
+    &::after {
+      content: '';
+      @include mask-mask;
+    }
+
+    @include modifier(covered) {
+      &::after {
+        display: block;
+      }
+    }
+  }
+}

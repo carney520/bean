@@ -1,0 +1,35 @@
+@import "./base";
+@import "./control";
+@import "./input-group";
+@import "./feedback";
+@import "./checkbox";
+@import "./checkbox-group";
+@import "./radio-group";
+@import "./slider";
+@import "./tag";
+@import "./cascader";
+@import "./switch";
+@import "./text-field";
+@import "./input-number";
+@import "./datepicker";
+@import "./timepicker";
+@import "./rangepicker";
+
+@mixin generate-form-components {
+  @include generate-form-base;
+  @include generate-form-controls;
+  @include generate-form-input-group;
+  @include generate-text-field;
+  @include generate-input-number;
+  @include generate-form-feedback;
+  @include generate-checkbox;
+  @include generate-checkbox-group;
+  @include generate-radio-group;
+  @include generate-slider;
+  @include generate-form-tags;
+  @include generate-cascader;
+  @include generate-switch;
+  @include generate-datepicker;
+  @include generate-timepicker;
+  @include generate-rangepicker;
+}

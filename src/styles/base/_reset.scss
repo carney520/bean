@@ -1,0 +1,115 @@
+///
+/// 脚手架
+///
+
+@mixin reset {
+  html {
+    box-sizing: border-box;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+
+  @at-root {
+    @-ms-viewport { width: device-width; }
+  }
+
+  //
+  // Reset HTML, body, and more
+  //
+
+  html {
+    // Sets a specific default `font-size` for user with `rem` type scales.
+    font-size: $global-font-size;
+    // See https://github.com/twbs/bootstrap/issues/18543
+    -ms-overflow-style: scrollbar;
+    // Changes the default tap highlight to be completely transparent in iOS.
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+
+  body {
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    font-family: $font-family-sans-serif;
+    font-size: $global-font-size;
+    font-weight: $global-weight-normal;
+    line-height: $global-lineheight;
+    color: $body-font-color;
+    background-color: $body-background;
+
+    //抗锯齿
+    @if ($font-antialiased) {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  }
+
+  fieldset {
+    min-width: 0;
+    margin: 0;
+    border: 0;
+  }
+
+  fieldset, legend, td, th {
+    padding: 0;
+  }
+
+  label {
+    display: inline-block;
+    margin-bottom: .5rem;
+  }
+
+  textarea {
+     height: auto;
+     min-height: 50px;
+     border-radius: 0;
+   }
+
+   button {
+      @include disable-mouse-outline;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background: transparent;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      line-height: 1;
+    }
+   // Make select elements are 100% width by default
+   select {
+     width: 100%;
+     border-radius: 0;
+   }
+   //disable default outline
+   input {
+     outline: 0;
+   }
+
+   textarea {
+     resize: vertical;
+   }
+
+   th {
+     text-align: left;
+   }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    -ms-interpolation-mode: bicubic;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .is-hidden {
+    display: none !important;
+  }
+
+  .is-visible {
+    display: block !important;
+  }
+}

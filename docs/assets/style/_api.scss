@@ -1,0 +1,15 @@
+$lightgray: #eee;
+
+.api-preview {
+  table {
+    margin: 1em 0;
+  }
+
+  td, th {
+    border: 1px solid darken($lightgray, 10%);
+    padding: .6em .9em;
+  }
+  th {
+    background-color: $lightgray;
+  }
+}

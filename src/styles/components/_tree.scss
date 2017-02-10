@@ -1,0 +1,79 @@
+/// 树形组件
+
+$tree-indent: 1.7rem !default;
+$tree-actived-color: rgba($global-primary, .9) !default;
+$tree-hover-color: rgba($global-primary, .1) !default;
+$tree-disabled-color: $light-gray !default;
+
+@mixin tree-content {
+  padding: .8em 2.5em;
+  margin-left: -$tree-indent;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+@mixin tree-base {
+  list-style: none;
+  margin: 0 0 0 $tree-indent;
+  user-select: none;
+}
+
+@mixin tree-item {
+}
+
+
+@mixin tree-title {
+  margin-top: 2px;
+  padding: .05em .5em;
+  @include hover-focus-active {
+    background-color: $tree-hover-color;
+  }
+}
+
+@mixin generate-tree {
+  @include block(tree-content) {
+    @include tree-content;
+  }
+
+  @include block(tree) {
+    @include tree-base;
+
+    @include element(item) {
+      @include tree-item;
+    }
+
+    @include element(head) {
+    }
+
+    @include element(collapsed, title) {
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    @include element(collapsed) {
+      margin-left: -1rem;
+    }
+
+    @include element(title) {
+      @include tree-title;
+      min-width: 100%;
+      white-space: nowrap;
+      text-align: left;
+      transition: all .3s ease-in-out;
+
+      @include modifier(actived) {
+        color: $tree-actived-color;
+        background-color: $tree-hover-color;
+      }
+
+      @include modifier(disabled) {
+        color: $tree-disabled-color;
+        cursor: not-allowed;
+        @include hover-focus-active {
+          background-color: unset;
+        }
+      }
+    }
+
+  }
+}

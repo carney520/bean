@@ -1,0 +1,24 @@
+@mixin generate-popover-confirm {
+  @include block(popover-confirm) {
+    @include element(message) {
+      margin: .5em 0 1em;
+      font-size: $global-font-size-small;
+      & > .icon {
+        margin-right: 3px;
+      }
+    }
+
+    @include element(title) {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+
+    @include element(buttons) {
+      text-align: right;
+      .button {
+        margin-left: .3em;
+      }
+    }
+  }
+}

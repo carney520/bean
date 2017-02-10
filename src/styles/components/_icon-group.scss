@@ -1,0 +1,41 @@
+$icon-group-item-sizes: (
+  default: 1.5em,
+  large: 2em
+) !default;
+
+$icon-item-separator-color: $medium-gray !default;
+$icon-item-gutter: .4em !default;
+
+@mixin icon-group-item {
+  display: inline-block;
+
+  //size
+  .icon {
+    @include square(map-get($icon-group-item-sizes, default));
+  }
+
+  //separator
+  &:not(:last-child)::after {
+    content: '|';
+    margin: 0 $icon-item-gutter;
+    @include plain-hover-focus {
+      color: $icon-item-separator-color;
+    }
+  }
+}
+
+@mixin generate-icon-group {
+  @include block(icon-group) {
+    white-space: nowrap;
+
+    @include element(item) {
+      @include icon-group-item;
+
+      @include modifier(large) {
+        .icon {
+          @include square(map-get($icon-group-item-sizes, large));
+        }
+      }
+    }
+  }
+}

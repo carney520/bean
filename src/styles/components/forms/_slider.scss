@@ -1,0 +1,204 @@
+/// 滑动条
+
+$slider-active-color: $global-primary !default;
+$slider-unactive-color: $light-gray !default;
+$slider-scale-color: $dark-gray !default;
+$slider-tip-backgrond: $dark-gray !default;
+
+
+@mixin slider-base {
+  position: relative;
+  box-sizing: content-box;
+  margin: .9em;
+  height: .0625em;     //1px
+  // slider是可以点击的，通过border来扩大点击面积
+  border-top: .375em solid transparent;     // 6px
+  border-bottom: .375em solid transparent;  // 6px
+  outline: none;
+  font-size: 1rem;
+  background-color: $slider-scale-color;
+  background-clip: content-box;
+  cursor: pointer;
+
+  @include state(is-disabled) {
+    cursor: not-allowed;
+  }
+}
+
+@mixin slider-wrapper-base {
+  position: relative;
+}
+
+@mixin slider-wrapper-icon-append {
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+
+  & > .icon,
+  & > [slot="icon-left"],
+  & > [slot="icon-right"]
+   {
+    @include square(1.5em);
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  & > .icon:first-child,
+  & > [slot="icon-left"] {
+    left: 0;
+  }
+
+  & > .icon:last-child,
+  & > [slot="icon-right"]
+   {
+    right: 0;
+  }
+}
+
+@mixin slider-handle {
+  position: absolute;
+  width: 1.25em;         // 20px
+  height: 1.25em;        // 20px
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 1.25em;
+  box-shadow: 0 2px 5px rgba(0,0,0,.4);
+  background-color: $white;
+  backface-visibility: hidden;
+  cursor: pointer;
+  z-index: 2;
+}
+
+@mixin slider-handle-disabled {
+  background-color: $slider-unactive-color;
+  cursor: not-allowed;
+}
+
+@mixin slider-track {
+  position: absolute;
+  background-color: $slider-active-color;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+@mixin slider-track-disabled {
+  background-color: $slider-unactive-color;
+}
+
+@mixin slider-scale {
+  position: relative;
+  width: 100%;
+}
+
+@mixin slider-scale-value {
+  position: absolute;
+  width: .0625em;  // 1px
+  height: .5em;  // 8px
+  background-color: $slider-scale-color;
+  color: $slider-scale-color;
+  fill: $slider-scale-color;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@mixin slider-scale-value-actived {
+  background-color: $slider-active-color;
+  color: $slider-active-color;
+  fill: $slider-active-color;
+}
+
+@mixin slider-scale-value-disabled-actived {
+  background-color: $slider-unactive-color;
+  color: $slider-unactive-color;
+  fill: $slider-unactive-color;
+}
+
+@mixin slider-scale-title {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -.5em);
+  bottom: 100%;
+  font-size: .9em;
+  color: inherit;
+  white-space: nowrap;
+}
+
+@mixin slider-tip {
+  position: absolute;
+  top: calc(100% + .7em);
+  left: 50%;
+  min-width: 1.4em;
+  padding: .1em .3em;
+  transform: translateX(-50%);
+  color: white;
+  text-align: center;
+  user-select: none;
+  border-radius: .325em;
+  background-color: $slider-tip-backgrond;
+
+  &::before {
+    @include triangle(.4em, $slider-tip-backgrond, up);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(100% - 1px);
+  }
+}
+
+@mixin generate-slider {
+  @include block(slider) {
+    @include slider-base;
+
+    @include element(wrapper) {
+      @include slider-wrapper-base;
+
+      @include modifier(icon-appended) {
+        @include slider-wrapper-icon-append;
+      }
+    }
+
+    @include element(handle) {
+      @include slider-handle;
+
+      @include shadow('.is-disabled') {
+        @include slider-handle-disabled;
+      }
+    }
+
+    @include element(track) {
+      @include slider-track;
+
+      @include shadow('.is-disabled') {
+        @include slider-track-disabled;
+      }
+    }
+
+    @include element(scale) {
+      @include slider-scale;
+    }
+
+    @include element(scale-value) {
+      @include slider-scale-value;
+
+      @include state(is-actived) {
+        @include slider-scale-value-actived;
+      }
+
+      @include shadow('.is-disabled') {
+        @include state(is-actived) {
+          @include slider-scale-value-disabled-actived;
+        }
+      }
+    }
+
+    @include element(scale-title) {
+      @include slider-scale-title;
+    }
+
+    @include element(tip) {
+      @include slider-tip;
+    }
+  }
+}

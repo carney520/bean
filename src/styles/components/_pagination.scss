@@ -1,0 +1,128 @@
+
+/// size
+$pagination-sizes: (
+  small: convert-to-rem(12px),
+  default: convert-to-rem(14px),
+  large: convert-to-rem(16px)
+) !default;
+
+$pagination-margin-bottom: $global-margin !default;
+
+// *
+// item
+// *
+$pagination-item-padding: .3em .67em !default;
+
+$pagination-item-gutter: convert-to-rem(5px) !default;
+
+$pagination-item-radius: $global-radius !default;
+
+$pagination-item-border: 1px solid $light-gray !default;
+
+// item color
+$pagination-item-color: $black !default;
+
+// current item & hover item
+$pagination-item-hover-color: $white !default;
+$pagination-item-hover-background: primary !default;  //color name
+
+// disabled item
+$pagination-item-disabled-color: $medium-gray !default;
+
+// ellipsis(省略) item
+$pagination-item-ellipsis-color: $black !default;
+
+
+
+
+@mixin pagination-base {
+  @include clearfix;
+  // apply to ul
+  margin-left: 0;
+  margin-bottom: $pagination-margin-bottom;
+}
+
+%pagination-item {
+  display: inline-block;
+  font-size: map-get($pagination-sizes, default);
+  margin-right: $pagination-item-gutter;
+  padding: $pagination-item-padding;
+  user-select: none;
+}
+
+@mixin pagination-item {
+  @extend %pagination-item;
+  border: $pagination-item-border;
+  border-radius: $pagination-item-radius;
+
+  color: $pagination-item-color;
+  cursor: pointer;
+}
+
+@mixin pagination-ellipsis {
+  @extend %pagination-item;
+  color: $pagination-item-ellipsis-color;
+  &::after {
+    content: '\2026';
+  }
+}
+
+@mixin pagination-disabled {
+  color: $pagination-item-disabled-color;
+  cursor: not-allowed;
+  &:hover {
+    background: transparent !important;
+    border: $pagination-item-border !important;
+  }
+}
+
+@mixin pager-item {
+
+}
+
+@mixin generate-pagination {
+  @include block(pagination) {
+    @include pagination-base;
+
+    @include element(item) {
+      @include pagination-item;
+      @include modifier(current, ':hover') {
+        color: $pagination-item-hover-color;
+      }
+      @include modifier(current) {
+        cursor: default;
+      }
+      @include modifier(disabled) {
+        @include pagination-disabled;
+      }
+    }
+
+    @include element(ellipsis) {
+      @include pagination-ellipsis;
+    }
+  }
+  // default theme
+  @include generate-pagination-appearance;
+  // other theme
+  @include generate-pagination-theme;
+}
+
+@mixin generate-pagination-appearance {
+  @include block(pagination) {
+    @include element(item) {
+      @include modifier(current, ':hover') {
+        $background: map-get($global-palette, $pagination-item-hover-background);
+        background-color: $background;
+        border-color: $background;
+      }
+    }
+  }
+}
+
+@mixin generate-pagination-theme {
+  @include each-theme {
+    @include theme($current-theme-name) {
+      @include generate-pagination-appearance;
+    }
+  }
+}

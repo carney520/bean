@@ -1,0 +1,93 @@
+// 类似tooltip的弹出框
+
+$popover-min-width: convert-to-rem(276px)!default;
+
+$popover-background: $white !default;
+
+$popover-color: $black !default;
+
+$popover-padding-x: 1em !default;
+$popover-title-padding-y: .4em !default;
+$popover-content-padding-y: .8em !default;
+
+
+$popover-font-size: $global-font-size !default;
+$popover-title-font-size: .95rem !default;
+
+
+$popover-arrow-width: .6rem !default;
+$popover-arrow-height: $popover-arrow-width * .8 !default;
+
+$popover-border-color: $light-gray !default;
+$popover-radius: $global-radius !default;
+
+$popover-shadow: 0 5px 10px $lighter-gray !default;
+$popover-z-index: $z-tooltip !default;
+
+@mixin popover-wrapper {
+  @include tooltip-wrapper;
+  cursor: default;
+}
+
+@mixin popover-base {
+  position: absolute;
+  min-width: $popover-min-width;
+  border: 1px solid $popover-border-color;
+  border-radius: $popover-radius;
+  background-color: $popover-background;
+  box-shadow: $popover-shadow;
+
+  color: $popover-color;
+  font-size: $popover-font-size;
+
+  z-index: $popover-z-index;
+  cursor: default;
+  @include tooltip-bottom($popover-arrow-height, $popover-arrow-width, $popover-background, $popover-border-color);
+}
+
+@mixin popover-title {
+  padding: $popover-title-padding-y $popover-padding-x;
+  margin: 0;
+  font-size: $popover-title-font-size;
+  background-color: $white;
+  border-bottom: 1px solid $popover-border-color;
+  @include border-top-radius($popover-radius);
+}
+
+@mixin popover-content {
+  padding: $popover-content-padding-y $popover-padding-x;
+  margin: 0;
+  @include border-bottom-radius($popover-radius);
+}
+
+
+// 生成样式
+@mixin generate-popover {
+  @include block(popover) {
+    @include popover-wrapper;
+
+    @include element(body) {
+      @include popover-base;
+
+      @include shadow(left) {
+        @include tooltip-left($popover-arrow-height, $popover-arrow-width, $popover-background, $popover-border-color);
+      }
+
+      @include shadow(top) {
+        @include tooltip-top($popover-arrow-height, $popover-arrow-width, $popover-background, $popover-border-color);
+      }
+
+      @include shadow(right) {
+        @include tooltip-right($popover-arrow-height, $popover-arrow-width, $popover-background, $popover-border-color);
+      }
+    }
+
+    @include element(title) {
+      @include popover-title;
+    }
+
+    @include element(content) {
+      @include popover-content;
+    }
+  }
+}

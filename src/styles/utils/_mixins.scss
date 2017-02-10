@@ -1,0 +1,7 @@
+@mixin link-unstyle($color) {
+  color: $color;
+  @include hover-focus-active {
+    color: $color;
+    text-decoration: none;
+  }
+}

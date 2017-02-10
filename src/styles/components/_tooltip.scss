@@ -1,0 +1,174 @@
+
+$tooltip-background-color: $black !default;
+$tooltip-color: $white !default;
+$tooltip-padding: .6rem !default;
+$tooltip-radius:  $global-radius !default;
+
+// $small-font-size defined in base/_type.scss
+$tooltip-font-size: $small-font-size !default;
+
+$tooltip-arrow-width: .6rem !default;
+$tooltip-arrow-height: $tooltip-arrow-width * .8 !default;
+
+$tooltip-z-index: $z-tooltip !default;
+
+@mixin tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+  // vertical-align: middle;
+  cursor: help;
+}
+
+
+@mixin tooltip-bottom(
+  $arrow-height: $tooltip-arrow-height,
+  $arrow-width: $tooltip-arrow-width,
+  $arrow-background: $tooltip-background-color,
+  $arrow-border: $tooltip-background-color
+) {
+  top: calc(100% + #{$arrow-height});
+  left: 50%;
+  transform: translateX(-50%);
+
+  // 三角形
+  &::before,
+  &::after {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  // 边框
+  &::before {
+    @include triangle($arrow-width, $arrow-border, up);
+    bottom: 100%;
+  }
+
+  &::after {
+    @include triangle ($arrow-width, $arrow-background, up);
+    bottom: calc(100% - 1px);
+  }
+}
+
+@mixin tooltip-top(
+  $arrow-height: $tooltip-arrow-height,
+  $arrow-width: $tooltip-arrow-width,
+  $arrow-background: $tooltip-background-color,
+  $arrow-border: $tooltip-background-color
+) {
+  top: auto;
+  bottom: calc(100% + #{$arrow-height});
+  left: 50%;
+  transform: translateX(-50%);
+
+  &::before,
+  &::after {
+    bottom: auto;
+  }
+
+  &::before {
+    @include triangle($arrow-width, $arrow-border, down);
+    top: 100%;
+  }
+
+  &::after {
+    @include triangle($arrow-width, $arrow-background, down);
+    top: calc(100% - 1px);
+  }
+}
+
+@mixin tooltip-left(
+  $arrow-height: $tooltip-arrow-height,
+  $arrow-width: $tooltip-arrow-width,
+  $arrow-background: $tooltip-background-color,
+  $arrow-border: $tooltip-background-color
+) {
+  top: 50%;
+  left: auto;
+  right: calc(100% + #{$arrow-width});
+  transform: translateY(-50%);
+
+  &::before,
+  &::after {
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+  }
+
+  &::before {
+    @include triangle($arrow-width, $arrow-border, right);
+    left: 100%;
+  }
+
+  &::after {
+    @include triangle($arrow-width, $arrow-background, right);
+    left: calc(100% - 1px);
+  }
+}
+
+@mixin tooltip-right(
+  $arrow-height: $tooltip-arrow-height,
+  $arrow-width: $tooltip-arrow-width,
+  $arrow-background: $tooltip-background-color,
+  $arrow-border: $tooltip-background-color
+) {
+  left: calc(100% + #{$arrow-width});
+  top: 50%;
+  transform: translateY(-50%);
+
+  &::before,
+  &::after {
+    top: 50%;
+    bottom: auto;
+    left: auto;
+    transform: translateY(-50%);
+  }
+
+  &::before {
+    @include triangle($arrow-width, $arrow-border, left);
+    right: 100%;
+  }
+
+  &::after {
+    @include triangle($arrow-width, $arrow-background, left);
+    right: calc(100% - 1px);
+  }
+}
+
+@mixin tooltip {
+  position: absolute;
+  white-space: nowrap;
+  padding: $tooltip-padding;
+  max-width: 10rem !important;
+
+  @include plain-hover-focus {
+    outline: none;
+  }
+
+  background-color: $tooltip-background-color;
+  font-size: $tooltip-font-size;
+  color: $tooltip-color;
+  border-radius: $tooltip-radius;
+  z-index: $tooltip-z-index;
+
+
+  @include tooltip-bottom;
+}
+
+@mixin generate-tooltip {
+  @include block('tooltip') {
+    @include tooltip-wrapper;
+    @include element('tip') {
+      @include tooltip;
+      @include shadow(left) {
+        @include tooltip-left;
+      }
+      @include shadow(right) {
+        @include tooltip-right;
+      }
+      @include shadow(top) {
+        @include tooltip-top;
+      }
+    }
+  }
+}

@@ -1,0 +1,109 @@
+///  @example
+///  .tab__header
+///     .tab__title.--active
+///     .tab__title
+///     ...
+///  .tab__content
+///     .tab__panel.--active
+///     .tab__panel
+///     ...
+
+$tab-header-padding-x: 2rem !default;
+$tab-header-margin-y: 3rem !default;
+
+$tab-title-padding: .5rem 1.5rem !default;
+$tab-title-gutter: .2em !default;
+$tab-title-radius: $global-radius !default;
+$tab-title-color: inherit !default;
+$tab-title-color-disabled: $light-gray !default;
+$tab-title-color-active: $black !default;
+
+$tab-title-background:  $white !default;
+$tab-title-background-hover:  $lightest-gray !default;
+
+$tab-panel-padding: 1rem !default;
+
+@mixin tab-header-base {
+  @include clearfix;
+  margin: 0;
+  padding: 0 $tab-header-padding-x;
+  margin: $tab-header-margin-y 0;
+  list-style: none;
+  border-bottom: 1px solid $light-gray;
+}
+
+@mixin tab-title-base {
+  float: left;
+  margin-bottom: -1px;
+  &:not(:first-child) {
+    margin-left: $tab-title-gutter;
+  }
+  
+  @include child(a) {
+    display: block;
+    padding: $tab-title-padding;
+    border-radius: $tab-title-radius;
+    color: $tab-title-color;
+    &:hover,
+    &:active,
+    &:focus {
+      text-decoration: none;
+      background-color: $tab-title-background-hover;
+    }
+  }
+}
+
+@mixin tab-title-active {
+  @include child(a) {
+    @include border-bottom-radius(0);
+    color: $tab-title-color-active;
+    border: 1px solid $light-gray;
+    border-bottom-color: transparent;
+    background-color: $tab-title-background;
+  }
+}
+
+@mixin tab-title-disabled {
+  @include child(a) {
+    color: $tab-title-color-disabled;
+    cursor: not-allowed;
+  }
+}
+
+@mixin tab-content-base {
+  background-color: $tab-title-background;
+}
+
+@mixin tab-panel-base {
+  padding: $tab-panel-padding;
+  display: none;
+}
+
+@mixin generate-tab {
+  @include block(tab) {
+    @include element(header) {
+      @include tab-header-base;
+    }
+
+    @include element(title) {
+      @include tab-title-base;
+      @include modifier(active) {
+        @include tab-title-active;
+      }
+      @include modifier(disabled) {
+        @include tab-title-disabled;
+      }
+    }
+
+    @include element(content) {
+      @include tab-content-base;
+    }
+
+    @include element(panel) {
+      @include tab-panel-base;
+      @include modifier(active) {
+        display: block
+      }
+    }
+  }
+}

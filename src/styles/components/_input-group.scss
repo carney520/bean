@@ -1,0 +1,218 @@
+///
+/// #scss 规范
+/// 1. 使用BEM来表示一个块(block)，一个块就是一个对象，如.input-group
+/// 2. 使用级联class来描述块的状态，如.input-group.large
+/// 3. 一个块可以包含多个部件，这些部件称为(element), 如 .input-group__addon, 描述一个addon部件
+/// 4. 书写格式
+///      .input-group {  //定义一个块
+///          &.active {}               //块的状态，相当于 .input-group.active
+///          @include element(addon){  //定义一个元素,相当于 .input-group__addon
+///             //..
+///             @include shadow(active) {}  //定义父元素特定状态下的样式， 相当于.input-group.active .input-group__addon
+///             &.left {}                   //定义元素自己的状态，相当于 .input-group__addon.left
+///          }
+///       }
+/// 5. 所有样式都写在mixin中,命名为generate-<component>
+/// 6. 将颜色,特效相关的样式,即外观样式抽离到一个单独的mixin中，便于定制皮肤（分离外观样式和结构样式）.命名为generate-<component>-appearance
+/// 7. 变量定义： 在开始写组件前，需要封装变化，将组件的可以变动的属性值抽取为变量，并在文件开始出声明，主要使用!default修饰。这是为了让变量可以被覆盖
+/// 8. 虽然当前css命名风格为BEM，但是css代码不应该与特定的命名耦合，需要将可复用css规则抽离为一个mixin。一则css规则可以被复用，
+///    二则可以灵活地应对未来命名的变化
+/// 9. 属性继承
+///       + 对于需要绝对控制大小的元素，使用rem, 可以使用convert-to-rem()函数将值转换为rem
+///       + 其他元素相对于当前元素的font-size,相对控制大小，即使用em单位
+///       + 属性继承，font-size是可以继承的，我们可以在‘块’上设置font-size的大小，‘块’下属的‘元素’可以继承这个大小.
+///         利用这个特性可以在‘块(父元素)’设置font-size, '元素(子元素)'可以继承它
+///         如， .block.large {
+///                font-size: $large;
+///              };
+///             .block__element {
+///                height: 2em;   //=> 即2 * $large 的大小
+///             }
+///
+/// @deprecated
+
+/// font color
+$input-group-color: $black !default;
+$input-group-color-at-dark: $white !default;
+$input-group-placeholder-color: $medium-gray !default;
+$input-group-background: $medium-gray !default;
+
+$input-group-lineheight: $global-lineheight !default;
+$input-group-height: 2.6em !default;
+$input-group-spacing:           1rem !default;
+
+
+$input-group-addon-border: 1px solid $medium-gray !default;
+$input-group-addon-padding: .375em .75em !default;
+$input-group-icon-size: 1.3em !default;
+$input-group-icon-fill: $white !default;
+
+$input-group-control-shadow:            inset 0 1px 2px rgba($black, 0.1) !default
+$input-group-control-shadow-focus:      0 0 5px $medium-gray !default
+
+/// sizes
+$input-group-sizes: (
+  tiny: convert-to-rem(10px) ,
+  small: convert-to-rem(14px),
+  default: convert-to-rem(16px),
+  large: convert-to-rem(20px)
+) !default;
+
+/// border radius
+$input-group-radius: $global-radius !default;
+
+@mixin input-group-base {
+  display: table;
+  position: relative;
+  width: 100%;
+  border-collapse: separate;
+  opacity: .8;
+  transition: opacity .3s ease-in-out;
+
+  // radius
+  > :first-child {
+    // top-left top-right bottom-right bottom-left
+    border-radius: $input-group-radius 0 0 $input-group-radius;
+  }
+
+  > :last-child {
+    border-radius: 0 $input-group-radius $input-group-radius 0;
+  }
+
+  @include hover-focus {
+    opacity: 1;
+  }
+}
+
+%input-group-child {
+  position: relative;
+  display: table-cell;
+  margin: 0;
+  white-space: nowrap;
+  line-height: $input-group-lineheight;
+}
+
+@mixin input-group-addon {
+  @extend %input-group-child;
+  width: 1%;                    //收缩，伸缩到最小宽度
+  padding: $input-group-addon-padding;
+  border: $input-group-addon-border;
+  background-color: $input-group-background;
+
+  // border
+  &:first-child {
+    border-right: 0;
+  }
+  &:last-child {
+    border-left: 0;
+  }
+
+  .icon {
+    fill: $input-group-icon-fill;
+    @include square($input-group-icon-size);
+  }
+
+  //centering
+  text-align: center;
+  @include ghost-center-wrapper;
+}
+
+@mixin input-group-control {
+  @extend %input-group-child;
+  width: 100%;                // 伸缩到最大宽度
+  height: inherit;
+  padding: ($input-group-spacing / 2) 1em;
+  border: 1px solid $input-group-background;
+  box-shadow: $input-group-control-shadow;
+  @include hover-focus {
+    box-shadow: $input-group-control-shadow-focus;
+  }
+
+  //font color
+
+  color: $input-group-color;
+  &::placeholder {
+    color: $input-group-placeholder-color;
+  }
+}
+
+// @mixin input-group-append {
+//   display: table-caption;
+//   caption-side: bottom;
+//   margin: .4em 0;
+//   font-size: .6em;
+//   transition: color .3s ease;
+// }
+
+
+@mixin input-group-size ($font-size) {
+  $height: $font-size * $input-group-lineheight + $input-group-spacing;
+  font-size: $font-size;
+  height: $height;
+}
+
+@mixin generate-input-group {
+  //导入外观样式
+  @include generate-input-group-appearance;
+
+  @include block(input-group) {
+    @include input-group-base;
+
+    // size
+    @include input-group-size(map-get($input-group-sizes, default));
+    @each $keyword, $size in map-remove($input-group-sizes, default) {
+      @include modifier($keyword) {
+        @include input-group-size($size);
+      }
+    }
+
+    //.input-group__addon
+    @include element(addon) {
+      @include input-group-addon;
+      @include shadow('transparent') {
+        background-color: $white;
+        color: $black;
+        .icon {
+          fill: $black;
+        }
+      }
+    }
+
+    // .input-group__control
+    @include element(control) {
+      @include input-group-control;
+    }
+
+  }
+}
+
+@mixin generate-input-group-appearance {
+  @include block(input-group) {
+    @include element(addon) {
+      @each $keyword, $color in $global-palette {
+        // other
+        @include shadow($keyword) {
+          background-color: $color;
+          border-color: $color;
+          color: $input-group-color-at-dark;
+        }
+
+        @include modifier($keyword) {
+          background-color: $color;
+          border-color: $color;
+          color: $input-group-color-at-dark;
+        }
+      }
+    }
+
+    @include element(control) {
+      // hover color
+      @each $keyword, $color in $global-palette {
+        //other
+        @include shadow($keyword) {
+          border: 1px solid $color;
+        }
+      }
+    }
+  }
+}

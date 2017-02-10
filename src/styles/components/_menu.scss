@@ -1,0 +1,73 @@
+$menu-actived-color: rgba($global-primary, .9) !default;
+$menu-hover-color: rgba($global-primary, .1) !default;
+$menu-disabled-color: $light-gray !default;
+$menu-item-lineheight: $global-lineheight !default;
+
+@mixin menu-base {
+  outline: none;
+  display: block;
+  position: relative;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  background-color: $white;
+}
+
+@mixin menu-item-base {
+  display: block;
+  width: 100%;
+  padding: 4px 21px;
+  font-weight: 400;
+  color: $black;
+  white-space: nowrap;
+  line-height: $menu-item-lineheight;
+  cursor: pointer;
+
+  > * {
+    vertical-align: middle;
+  }
+
+
+}
+
+@mixin menu-item-horizontal {
+  display: inline-block;
+  width: auto;
+}
+
+@mixin generate-menu {
+  @include block(menu) {
+    @include menu-base;
+
+    @include element(item) {
+      @include menu-item-base;
+
+      @include shadow(horizontal){
+        @include menu-item-horizontal;
+      }
+
+      @include hover-focus-active {
+        background-color: $menu-hover-color;
+      }
+
+      @include modifier(actived) {
+        color: $menu-actived-color;
+        background-color: $menu-hover-color;
+      }
+
+      @include modifier(disabled) {
+        color: $menu-disabled-color;
+        cursor: not-allowed;
+        @include hover-focus-active {
+          background-color: unset;
+        }
+      }
+    }
+
+    @include element(divider) {
+      height: 1px;
+      background-color: $light-gray;
+    }
+  }
+}

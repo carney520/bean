@@ -1,0 +1,83 @@
+
+
+$loader-size: 4em !default;
+
+$loader-background: rgba($black, .2) !default;
+$loader-radius: $global-radius !default;
+
+$loader-padding: 5em !default;
+
+$loader-text-color: $white !default;
+
+$foreground-color: rgba($white, .9) !default;
+$background-color: rgba($light-gray, .7) !default;
+
+$loader-z-index: $z-loader !default;
+
+
+%loader-base {
+  @include square(100%);
+  display: block;
+  position: relative;
+}
+
+
+@mixin rotate-loader {
+  @extend %loader-base;
+  border-radius: 50%;
+  border: .4em solid $background-color;
+  border-left: .4em solid $foreground-color;
+  transform: translateZ(0);
+  animation: rotate360 1.1s infinite linear;
+}
+
+
+@mixin loader-box {
+  @include absolute-center;
+  padding: $loader-size + 1;
+  background-color: $loader-background;
+  border-radius: $loader-radius;
+  z-index: $loader-z-index;
+}
+
+@mixin loader-box-fixed {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 0;
+  transform: none;
+}
+
+@mixin loader-wrapper {
+  @include absolute-center;
+  @include square($loader-size);
+}
+
+@mixin loader-text {
+  text-align: center;
+  margin-top: 1rem;
+  color: $loader-text-color;
+}
+
+@mixin generate-loaders {
+  @include block(loader) {
+    @include loader-box;
+    @include modifier(fixed) {
+      @include loader-box-fixed;
+    }
+
+    @include element(wrapper) {
+      @include loader-wrapper;
+    }
+
+    @include element(body) {
+      @include modifier(rotate) {
+        @include rotate-loader;
+      }
+    }
+    @include element(text) {
+      @include loader-text;
+    }
+  }
+}

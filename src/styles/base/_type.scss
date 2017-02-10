@@ -1,0 +1,255 @@
+///
+/// 基本排版
+///
+
+/// 标题大小, 她们将转换为rem
+/// small 小屏幕
+/// medium 大屏幕
+$header-sizes: (
+  small: (
+    'h1': 24,
+    'h2': 20,
+    'h3': 19,
+    'h4': 18,
+    'h5': 17,
+    'h6': 16,  //=> 1em
+  ),
+  medium: (
+    'h1': 48,
+    'h2': 40,
+    'h3': 31,
+    'h4': 25,
+    'h5': 20,
+    'h6': 16,
+  )
+) !default;
+
+$header-color: inherit !default;
+$header-font-family: $font-family-sans-serif !default;
+$header-font-weight: $global-weight-normal !default;
+$header-font-style: normal !default;
+$header-lineheight: 1.4 !default;
+$header-margin-bottom: 0.5rem !default;
+
+/// <small>, 不使用rem，相对与所在环境
+$small-font-size: 80% !default;
+$header-small-font-color: $medium-gray;
+
+
+/// 段落设置
+$p-lineheight: 1.6 !default;
+$p-margin-bottom: 1rem !default;
+
+/// 代码
+$code-color: $black !default;
+$code-font-family: $font-family-monospace !default;
+$code-font-weight: $global-weight-normal !default;
+$code-background: $light-gray !default;
+$code-border: 1px solid $medium-gray !default;
+$code-padding: convert-to-rem(2 5 1) !default;
+
+
+
+/// links
+$link-color: $global-primary !default;
+$link-text-decoration: none !default;
+$link-hover-color: scale-color($link-color, $lightness: -14%) !default;   //减淡
+$link-hover-text-decoration: underline !default;   //减淡
+
+///list
+$list-lineheight: $p-lineheight !default;
+$list-margin-bottom: $p-margin-bottom !default;
+$list-style-type: disc !default;
+$list-style-position: outside !default;
+$list-side-margin: 1.25rem !default;            //列表缩进
+$list-nested-side-margin: 1.25rem !default;      //嵌套列表缩进
+
+$dl-margin-bottom: 1rem !default;
+$dl-dt-weight: $global-weight-bold !default;
+$dl-dt-margin-bottom: 0.3rem !default;
+
+/// abbr
+$abbr-underline: 1px dotted $black !default;
+
+@mixin typograph {
+  // 重置
+  div,
+  dl,
+  dt,
+  dd,
+  ul,
+  ol,
+  li,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  pre,
+  form,
+  p,
+  blockquote,
+  th,
+  td {
+    margin: 0;
+    padding: 0;
+  }
+
+  //标题
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: $header-font-family;
+    font-weight: $header-font-weight;
+    font-style:  $header-font-style;
+    line-height: $header-lineheight;
+    color: $header-color;
+    margin: {
+      top: 0;
+      bottom: $header-margin-bottom;
+    }
+    //副标题
+    small {
+      color: $header-small-font-color;
+      line-height: 0;
+    }
+  }
+
+  @each $size, $headers in $header-sizes {
+    @include breakpoint($size) {
+      @each $h, $font-size in $headers {
+        #{$h} {
+          font-size: convert-to-rem($font-size)
+        }
+      }
+    }
+  }
+
+  //段落
+  p {
+    font-size: inherit;
+    line-height: $p-lineheight;
+    margin-bottom: $p-margin-bottom;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+
+  // 行内元素
+  // Emphasized text
+  em,
+  i {
+    font-style: italic;
+    line-height: inherit;
+  }
+
+  // Strong text
+  strong,
+  b {
+    font-weight: $global-weight-bold;
+    line-height: inherit;
+  }
+
+  // Small text
+  small {
+    font-size: $small-font-size;
+    line-height: inherit;
+  }
+
+
+  /// links
+  a {
+    color: $link-color;
+    text-decoration: $link-text-decoration;
+    line-height: inherit;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      color: $link-hover-color;
+      text-decoration: $link-hover-text-decoration;
+    }
+  }
+
+  // Horizontal rule
+  hr {
+    max-width: $global-width;
+    height: 0;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 1px solid $medium-gray;
+    border-left: 0;
+    margin: convert-to-rem(20) auto;;
+    clear: both;
+  }
+
+  // list
+  ul,
+  ol,
+  dl {
+    line-height: $list-lineheight;
+    margin-bottom: $list-margin-bottom;
+    list-style-position: $list-style-position;
+  }
+
+  // List items
+  li {
+    font-size: inherit;
+  }
+
+  // Unordered lists
+  ul {
+    list-style-type: $list-style-type;
+    margin-left: $list-side-margin;
+  }
+
+  // Ordered lists
+  ol {
+    margin-left: $list-side-margin;
+  }
+
+  // Nested unordered/ordered lists
+  ul, ol {
+    & & {
+      margin-left: $list-nested-side-margin;
+      margin-bottom: 0;
+    }
+  }
+
+  // Definition lists
+  dl {
+    margin-bottom: $dl-margin-bottom;
+
+    dt {
+      margin-bottom: $dl-dt-margin-bottom;
+      font-weight: $dl-dt-weight;
+    }
+  }
+
+  abbr {
+    color: $body-font-color;
+    cursor: help;
+    border-bottom: $abbr-underline;
+  }
+
+  //code
+  code {
+    display: block;
+    font-family: $code-font-family;
+    font-weight: $code-font-weight;
+    white-space: pre;
+    color: $code-color;
+    background-color: $code-background;
+    border: $code-border;
+    padding: $code-padding;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+}

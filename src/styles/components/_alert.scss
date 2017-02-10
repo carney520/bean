@@ -1,0 +1,92 @@
+// 信息提示框
+
+$alert-background: $white !default;
+$alert-border: $black !default;
+
+$alert-background-lightness: 70% !default;
+
+$alert-foreground-darken: 30% !default;
+
+$alert-border-width: 1px !default;
+
+$alert-margin: 0 0 1rem 0 !default;
+
+$alert-radius:  3px !default;
+
+$alert-link-font-weight: $global-weight-bold !default;
+$alert-link-darken: 35% !default;
+
+// padding
+$alert-size: (
+ small:  .5rem,
+ default: 1rem,
+ large: 3rem,
+) !default;
+
+@mixin alert-base {
+  position: relative;
+  margin: $alert-margin;
+  border-width: $alert-border-width;
+  border-radius: $alert-radius;
+}
+
+@mixin generate-alert {
+  @include generate-alert-appearance;
+  @include block(alert) {
+    @include alert-base;
+    //size
+    padding: map-get($alert-size, default);
+    @each $name, $size in map-remove($alert-size, default) {
+      @include modifier($name) {
+        padding: $size;
+      }
+    }
+    //button-link
+    @include element(link) {
+      font-weight: $alert-link-font-weight;
+    }
+
+    &.with-description {
+      font-size: 1.2em;
+    }
+
+    @include element(desc) {
+      font-size: .7em;
+      @include shadow('.with-icon') {
+        margin-left: 2.4em;
+      }
+    }
+
+    @include element(icon) {
+      margin-right: .5em;
+      width: 1.1em !important;
+      height: 1.1em !important;
+    }
+  }
+}
+
+@mixin alert-style($color, $border-color: null) {
+  $background: scale-color($color, $lightness: $alert-background-lightness);
+  @if $border-color == null {
+    $border-color: $color;
+  }
+  background-color: $background;
+  border-color: $border-color;
+  color: darken($color, $alert-foreground-darken);
+}
+
+@mixin generate-alert-appearance {
+  @include block(alert) {
+    @include alert-style($alert-background, $alert-border);
+    @each $name, $color in $global-palette {
+      @include modifier($name) {
+        @include alert-style($color);
+      }
+      @include element(link) {
+        @include shadow($name) {
+          color: darken($color, $alert-link-darken);
+        }
+      }
+    }
+  }
+}

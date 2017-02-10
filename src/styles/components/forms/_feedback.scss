@@ -1,0 +1,30 @@
+/// color
+
+@mixin form-control-color($color) {
+  $background-color: lighten($color, 20%);
+  background-color: rgba($background-color, .2);
+  box-shadow: none;
+  // box-shadow: inset 0 0 3px $background-color;
+}
+
+@mixin form-help-text-color($color) {
+  color: lighten($color, 10%);
+}
+
+@mixin generate-form-feedback {
+  @include block(form) {
+    @include element(group) {
+      @each $type, $color in map-remove($global-palette, primary, secondary) {
+        @include state('has-#{$type}') {
+          @include element(control) {
+            @include form-control-color($color);
+          }
+
+          @include element(help-text, label) {
+            @include form-help-text-color($color);
+          }
+        }
+      }
+    }
+  }
+}

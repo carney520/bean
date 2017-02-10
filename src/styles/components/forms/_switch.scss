@@ -1,0 +1,86 @@
+/// 开关
+
+$switch-active-color: lighten($global-success, 20%) !default;
+$switch-unactive-color: $light-gray !default;
+$switch-disable-color: $lightest-gray !default;
+$switch-transition-function: cubic-bezier(.78,.14,.15,.86) !default;
+
+@mixin switch-base {
+  position: relative;
+  display: inline-block;
+  width: 2.75em;         // 44px
+  height: 1.375em;       // 22px
+  line-height: 1.25em;   // 20px
+  vertical-align: middle;
+  border-radius: 1.25em; // 20px
+  outline: none;
+  box-shadow: inset 0 0 0 .125em $switch-unactive-color;
+  transition: box-shadow .2s $switch-transition-function;
+
+  cursor: pointer;
+}
+
+@mixin switch-checked {
+  border-color: $switch-active-color;
+  box-shadow: inset 0 0 0 1em $switch-active-color;
+}
+
+@mixin switch-disabled {
+  border-color: $switch-disable-color;
+  background-color: $switch-disable-color;
+  cursor: not-allowed;
+}
+
+@mixin switch-toggle-base {
+  position: absolute;
+  left: .0625em;        // 1px
+  top: .0625em;
+  width: 1.25em;         // 20px
+  height: 1.25em;        // 20px
+  border-radius: 1.25em;
+  box-shadow: 0 2px 5px rgba(0,0,0,.4);
+  background-color: $white;
+  transition: left .3s $switch-transition-function, width .3s $switch-transition-function;
+}
+
+@mixin switch-toggle-checked {
+  left: 1.4em;   // 22px
+}
+
+@mixin switch-toggle-disabled {
+  background-color: $switch-unactive-color;
+}
+
+@mixin generate-switch {
+  @include block(form-switch) {
+    @include switch-base;
+    @include state(is-checked) {
+      @include switch-checked;
+    }
+
+    @include state(is-disabled) {
+      @include switch-disabled;
+    }
+
+    @include element(toggle) {
+      @include switch-toggle-base;
+
+      @include shadow('.is-checked') {
+        @include switch-toggle-checked;
+      }
+
+      @include shadow-and('.is-checked', ':active') {
+        left: 1.16em;     // 16px
+      }
+
+      @include shadow('.is-disabled') {
+        @include switch-toggle-disabled;
+      }
+
+      @include shadow(':active') {
+        width: 1.5em;  // 24px
+      }
+    }
+    
+  }
+}

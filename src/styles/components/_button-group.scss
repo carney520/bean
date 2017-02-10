@@ -1,0 +1,182 @@
+/// button group
+
+$button-selector:  bem-block(button);
+
+@mixin button-group-base {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  @include child($button-selector) {
+    position: relative;
+    margin: 0;
+
+    //将激活的按钮放置到前面
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      z-index: 2;
+    }
+  }
+}
+
+// 水平(default)
+@mixin button-group-horizontal($self) {
+  @include clearfix;
+
+  // 避免重合边框, .button-group 可重合
+  #{$button-selector} + #{$button-selector},            //.button + .button
+  #{$button-selector} + #{$self} ,                      //.button + .button-group
+  #{$self} + #{$button-selector},                       //.button-group + .button
+  #{$self} + #{$self} {                                 //.button-group + .button-group
+    margin-left: -$button-border-width;
+  }
+
+  @include child($self, $button-selector) {
+    float: left;
+  }
+
+  // 嵌套button-group
+  @include child($self) {
+    // 中间的button-group
+    &:not(:first-child):not(:last-child) > #{$button-selector} {
+      border-radius: 0;
+    }
+
+    // 第一个button-group 的最后一个button
+    &:first-child:not(:last-child) > #{$button-selector}:last-child {
+      @include border-right-radius(0);
+    }
+
+    // 最后一个button-group 的第一个button
+    &:last-child:not(:first-child) > #{$button-selector}:first-child {
+      @include border-left-radius(0);
+    }
+  }
+
+  @include child($button-selector) {
+    // border radius
+    // 中间按钮
+    &:not(:first-child):not(:last-child) {
+      border-radius: 0;
+    }
+
+    // 第一个按钮, 不用重叠边框
+    &:first-child{
+      margin-left: 0;
+      &:not(:last-child) {
+        @include border-right-radius(0);
+      }
+    }
+
+    // 最后一个按钮
+    &:last-child:not(:first-child) {
+      @include border-left-radius(0);
+    }
+  }
+}
+
+%vertical-button-group {
+  display: block;
+  float: none;
+  width: 100%;
+  max-width: 100%;
+}
+
+// 垂直
+@mixin button-group-vertical($self) {
+
+  // 避免重合边框, .button-group 可重合
+  #{$button-selector} + #{$button-selector},            //.button + .button
+  #{$button-selector} + #{$self} ,                      //.button + .button-group
+  #{$self} + #{$button-selector},                       //.button-group + .button
+  #{$self} + #{$self} {                                 //.button-group + .button-group
+    margin-top: -$button-border-width;
+    margin-left: 0;
+  }
+
+  @include child($self) {
+    @extend %vertical-button-group;
+    @include child($button-selector) {
+      @extend %vertical-button-group;
+    }
+
+    // 中间的button-group
+    // 继承 button-group-horizontal
+
+    // 第一个button-group
+    &:first-child:not(:last-child) > #{$button-selector} {
+      //非第一个button
+      &:not(:first-child) {
+        border-radius: 0;
+      }
+
+      //第一个button
+      &:first-child:not(:last-child) {
+        @include border-top-radius($button-radius);
+      }
+    }
+
+    // 最后一个button-group
+    &:last-child:not(:first-child) > #{$button-selector} {
+      //非最后一个button
+      &:not(:last-child) {
+        border-radius: 0;
+      }
+
+      //最后一个button
+      &:last-child:not(:first-child) {
+        @include border-bottom-radius($button-radius);
+      }
+    }
+  }
+
+  @include child($button-selector) {
+    @extend %vertical-button-group;
+
+    // border radius
+    // 中间按钮, 继承在button-group-horizontal
+
+    // 第一个按钮, 不用重叠边框
+    &:first-child{
+      margin-top: 0;
+      &:not(:last-child) {
+        // 重置为默认, 尽管不优雅，但是为了api更加整洁
+        @include border-top-radius($button-radius);
+        @include border-bottom-radius(0);
+      }
+    }
+
+    // 最后一个按钮
+    &:last-child:not(:first-child) {
+      @include border-bottom-radius($button-radius);
+      @include border-top-radius(0);
+    }
+  }
+}
+
+//size
+@mixin button-group-size {
+  @each $size, $value in map-remove($button-sizes, default) {
+    @include modifier($size) {
+      @include child($button-selector) {
+        font-size: convert-to-rem($value) !important;
+      }
+    }
+  }
+}
+
+@mixin generate-button-group {
+  @include block(button-group) {
+    $self: &;
+    @include button-group-base;
+    @include button-group-size;
+    @include button-group-horizontal($self);
+
+    @include modifier(vertical) {
+      @include button-group-vertical($self);
+    }
+  }
+}

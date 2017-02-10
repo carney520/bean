@@ -1,0 +1,21 @@
+
+@mixin generate-rangepicker {
+  @include block(rangepicker) {
+    padding: .6em;
+
+    @include element(content) {
+      display: inline-block;
+      vertical-align: top;
+
+      &:last-child {
+        margin-left: 1em;
+      }
+    }
+
+    @include element(foot) {
+      .button {
+        margin-right: .5em;
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+// transition for vue
+
+@mixin generate-transitions {
+  .slide-transition {
+    transition: transform .4s ease-out, opacity .4s ease-out;
+    // 避免影响叠层上下文
+    // transform: translate(0, 0);
+  }
+
+  .slide-enter,
+  .slide-leave {
+    transform: translate(0, -50%);
+    opacity: 0;
+  }
+
+  .slide-horizontal-transition {
+    transition: transform .3s ease-out;
+    // transform: translateX(0);
+  }
+
+  .slide-horizontal-enter {
+    transform: translateX(100%);
+  }
+
+  .slide-horizontal-leave {
+    transform: translateX(-100%);
+  }
+
+  .fade-transition {
+    transition: opacity .3s ease-in;
+  }
+
+  .fade-enter,
+  .fade-leave {
+    opacity: 0;
+  }
+}

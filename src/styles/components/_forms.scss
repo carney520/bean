@@ -1,0 +1,343 @@
+$form-margin-bottom: $global-margin !default;
+
+
+$form-group-inline-gutter: .8em !default;
+$form-control-lineheight:        $global-lineheight !default;
+
+$form-control-color:             $black !default;
+$form-control-placeholder-color: $medium-gray !default;
+$form-control-select-triangle-color: $dark-gray !default;
+
+$form-control-background:        $white !default;
+$form-control-background-disabled: $lighter-gray !default;
+
+$form-control-border:            1px solid $medium-gray !default;
+$form-control-border-focus:      1px solid $dark-gray !default;
+$form-control-radius:            $global-radius !default;
+
+$form-control-shadow:            inset 0 1px 2px rgba($black, 0.1) !default
+$form-control-shadow-focus:      0 0 5px $medium-gray !default
+$form-control-transition:        box-shadow 0.5s, border-color 0.25s ease-in-out !default;
+
+$form-control-spacing:           .8em !default;
+
+// font-size
+$form-control-sizes: (
+  tiny: convert-to-rem(10px),
+  small: convert-to-rem(14px),
+  default: convert-to-rem(16px),
+  large: convert-to-rem(20px)
+) !default;
+
+// help text
+$helptext-font-size: convert-to-rem(13px) !default;
+$helptext-font-style: italic !default;
+$helptext-color: $dark-gray !default;
+
+$form-label-align: right !default;
+
+@mixin form-base {
+  margin-bottom: $form-margin-bottom;
+}
+
+
+@mixin form-inline {
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin form-group-inline {
+  display: table-cell;
+  white-space: nowrap;
+  &:not(:last-child) {
+    padding-right: $form-group-inline-gutter;
+  }
+}
+
+
+%form-control-base {
+  padding: $form-control-spacing / 2;
+  line-height: $form-control-lineheight;
+}
+
+@mixin form-label {
+  @extend %form-control-base;
+  margin-bottom: 0;
+  white-space: nowrap;
+  text-align: $form-label-align;
+}
+
+
+/// form control
+///
+@mixin form-control-base {
+  @extend %form-control-base;
+  display: block;
+  width: 100%;
+  // 避免没有内容时压扁
+  min-height: 1em * $form-control-lineheight + $form-control-spacing;
+  border: $form-control-border;
+  border-radius: $form-control-radius;
+  background-color: $form-control-background;
+  color: $form-control-color;
+  box-shadow: $form-control-shadow;
+  transition: $form-control-transition;
+
+  @include hover-focus-active {
+    outline: none;
+    border: $form-control-border-focus;
+    box-shadow: $form-control-shadow-focus;
+  }
+}
+
+@mixin form-control-textarea {
+  max-width: 100%;
+
+  &[rows] {
+    height: auto;;
+  }
+}
+
+@mixin form-control-select {
+  //禁止下拉框的默认按钮
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  //按钮
+  // @include background-triangle($form-control-select-triangle-color);
+  // background-size: 9px 6px;
+  // background-position: right (-$form-control-spacing) center;
+  // background-origin: content-box;
+  // background-repeat: no-repeat;
+  padding-right: $form-control-spacing * 2.5;
+
+  &[multiple] {
+    height: auto;
+    background-image: none;
+  }
+}
+
+@mixin form-control-size($form-control-font-size) {
+  // $height: $form-control-font-size * $form-control-lineheight + $form-control-spacing;
+  font-size: $form-control-font-size;
+  // height: $height;
+}
+
+
+/// checkbox
+///
+@mixin form-check {
+  @extend %form-control-base;
+  position: relative;
+  display: block;
+  margin-left: $form-control-spacing / 2;
+  margin-right: $form-control-spacing;
+
+  label {
+    display: inline-block;
+    margin-bottom: 0;
+    cursor: pointer;
+    //为按钮留出空间
+    padding-left: 1.25rem;
+  }
+
+  [type='checkbox'],
+  [type='radio'] {
+    position: absolute;
+    margin-top: .25rem;
+    margin-left: -1.25rem;
+  }
+}
+
+
+@mixin form-check-inline {
+  display: inline-block;
+  margin-top: 0;
+  margin-bottom: 0;
+  vertical-align: middle;
+  label {
+    padding-left: 0;
+  }
+  [type='checkbox'],
+  [type='radio'] {
+    position: relative;;
+    margin-left: 0;
+  }
+}
+
+@mixin form-help-text {
+  font-size: $helptext-font-size;
+  font-style: $helptext-font-style;
+  color: $helptext-color;
+}
+
+@mixin form-clear {
+  @include square(1.1rem);
+  position: absolute;
+  right: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  fill: $medium-gray;
+
+  @include hover-focus-active {
+    fill: $dark-gray;
+  }
+}
+
+%placeholder {
+  color: $form-control-placeholder-color;
+}
+
+@mixin generate-forms {
+  @include block(form) {
+    @include form-base;
+
+    @include modifier(inline) {
+      @include form-inline;
+
+      // input-group
+      @include nest(bem-block(input-group)) {
+        display: inline-table;
+        vertical-align: middle;
+
+        .input-group__addon,
+        .input-group__control {
+        // width: auto;
+        }
+      }
+      @include nest(bem-block(datepicker)) {
+        width: auto;
+      }
+    }
+
+    @include modifier(inline-left) {
+      margin-left: unset;
+    }
+
+    @include modifier(inline-right) {
+      margin-right: unset;
+    }
+
+    // form group
+    @include element(group) {
+      margin-bottom: $form-control-spacing;
+      // inline
+      @include shadow(inline) {
+        @include form-group-inline;
+        margin-bottom: 0;
+      }
+    }
+
+    @include element(label, static) {
+      @include form-label;
+      @include shadow(inline) {
+        display: inline-block;
+        width: auto;
+        vertical-align: middle;
+      }
+    }
+
+    @include element(static) {
+      text-align: inherit;
+    }
+
+    @include element(placeholder) {
+      @extend %placeholder;
+    }
+
+    //form control
+    @include element(control) {
+      @include form-control-base;
+      @include modifier(disabled, ':disabled','[readonly]') {
+        background-color: $form-control-background-disabled;
+        cursor: not-allowed;
+      }
+
+      @include modifier(placeholder, '::placeholder') {
+        @extend %placeholder;
+      }
+
+
+      // textarea
+      @include append-to(textarea) {
+        @include form-control-textarea;
+      }
+      //select
+      @include append-to(select, '.as-select') {
+        @include form-control-select;
+      }
+
+      // inline
+      @include shadow(inline) {
+        @include ghost-center-content;
+        width: auto;
+      }
+    }
+
+    // checkbox & radio
+    @include element(check) {
+      @include form-check;
+      @include shadow(inline) {
+        @include form-check-inline;
+      }
+    }
+
+    @include element(switch, slider) {
+      @extend %form-control-base;
+    }
+
+
+    //size
+    @include element(label, static, control, check, switch, slider) {
+      @include form-control-size(map-get($form-control-sizes, default));
+      @each $name, $size in map-remove($form-control-sizes, default) {
+        @include modifier($name) {
+          @include form-control-size($size);
+        }
+      }
+    }
+
+    //helptext
+    @include element(help-text) {
+      @include form-help-text;
+    }
+
+    @include element(clear, caret) {
+      @include form-clear;
+    }
+
+
+    // tags
+    @include element(tags) {
+      position: relative;
+      @include clearfix;
+    }
+
+    @include element(tag) {
+      display: inline-block;
+      margin-right: .5em;
+      padding: 0 .4em;
+      background-color: $light-gray;
+    }
+
+    @include element(tag-title, tag-close) {
+      display: inline-block;
+    }
+
+    @include element(tag-title) {
+      vertical-align: middle;
+      cursor: default;
+    }
+
+    @include element(tag-close) {
+      cursor: pointer;
+
+      .icon {
+        @include square(.9rem);
+        margin-left: 4px;
+        fill: $dark-gray;
+      }
+    }
+  }
+}

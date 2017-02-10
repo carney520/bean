@@ -1,0 +1,29 @@
+@mixin generate-confirm {
+  .confirm__body {
+    padding: 30px 40px;
+  }
+
+  .confirm__icon {
+    margin-right: 1em;
+  }
+
+  .confirm__title {
+    font-size: 1.2em;
+    font-weight: 600;
+    vertical-align: middle;
+  }
+
+  .confirm__content {
+    font-size: .9em;
+    margin-left: 3.5em;
+    margin-top: .5em;
+    color: $dark-gray;
+  }
+
+  .confirm__footer {
+    float: right;
+    .button {
+      margin-left: .5em;
+    }
+  }
+}

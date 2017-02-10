@@ -1,0 +1,57 @@
+/**
+* .block-grid[.--smart, --<breakpoint>-<n>]
+*   .block-grid__element
+*/
+
+
+@mixin block-grid-base {
+  @include clearfix;
+  padding: 0;
+  margin:0;
+  list-style: none;
+}
+
+@mixin block-grid-element {
+  display: block;
+  height: auto;
+  margin: 0;
+  float: left;
+}
+
+@mixin block-grid-element-smart {
+  // TODO 等分布局
+  @for $i from 2 through $grid-count {
+    @include quantity($i) {
+      width: percentage(1 / $i);
+    }
+  }
+}
+
+@mixin generate-block-grid {
+  @include block('block-grid') {
+    @include block-grid-base;
+
+    @include element(element) {
+      @include block-grid-element;
+      @include shadow(smart) {
+        @include block-grid-element-smart;
+      }
+
+      @include each-breakpoint {
+        @for $i from 1 through $grid-count {
+          @include shadow('#{$keyword}-#{$i}') {
+            width: (100% / $i);
+            &:nth-of-type(1n) {
+              clear: none;
+            }
+
+            &:nth-of-type(#{$i}n+1) {
+              clear: both;
+            }
+          }
+        }
+      }
+
+    }
+  }
+}

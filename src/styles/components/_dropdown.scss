@@ -1,0 +1,54 @@
+$dropdown-border-radius: 3px !default;
+$dropdown-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px !default;
+
+$dropdown-z-index: $z-dropdown !default;
+
+@mixin dropdown-title-base {
+  // @include ghost-center-wrapper;
+  // height: 100%;
+  white-space: nowrap;
+  cursor: pointer;
+  // & > * {
+  //   @include ghost-center-content;
+  // }
+}
+
+@mixin dropdown-pane-base {
+  display: block;
+  position: absolute;
+  margin-top: 2px;
+  left: -999em;
+  opacity: 0;
+  border-radius: $dropdown-border-radius;
+  box-shadow: $dropdown-shadow;
+  background-color: $white;
+  transition: opacity .2s ease;
+  z-index: $dropdown-z-index;
+}
+
+@mixin dropdown-pane-open {
+  opacity: 1;
+  left: 0;
+}
+
+
+@mixin generate-dropdown {
+  @include block(dropdown) {
+    position: relative;
+    @include element(title) {
+      @include dropdown-title-base;
+    }
+
+    @include element(pane) {
+      @include dropdown-pane-base;
+
+      @include modifier(full) {
+        width: 100%;
+      }
+
+      @include shadow-child('.is-open') {
+        @include dropdown-pane-open;
+      }
+    }
+  }
+}

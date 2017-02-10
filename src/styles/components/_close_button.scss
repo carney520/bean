@@ -1,0 +1,56 @@
+// x y
+$close-button-position: right top !default;
+
+$close-button-offset-vertical: .4rem !default;
+$close-button-offset-horizontal: .4rem !default;
+
+$close-button-size: 1.5em !default;
+
+$close-button-lineheight: 1 !default;
+
+/// color
+$close-button-color: $medium-gray !default;
+$close-button-hover: $dark-gray !default;
+
+$close-button-light: $white !default;
+$close-button-light-hover: $lighter-gray !default;
+
+@mixin close-button-icon {
+  content: '×';
+  display: inline-block;
+  font-size: $close-button-size;
+  line-height: 1;
+  @include absolute-center;
+}
+
+@mixin close-button-base {
+  $x: nth($close-button-position, 1);
+  $y: nth($close-button-position, 2);
+
+  position: absolute;
+  outline: 0;
+  #{$x}: $close-button-offset-horizontal;
+  #{$y}: $close-button-offset-vertical;
+  @include square($close-button-size);
+
+  &::after {
+    @include close-button-icon;
+  }
+
+  color: $close-button-color;
+  @include hover-focus {
+    color: $close-button-hover;
+  }
+}
+
+@mixin generate-close-button {
+  @include block(close-button) {
+    @include close-button-base;
+    @include modifier(light) {
+      color: $close-button-light;
+      @include hover-focus {
+        color: $close-button-light-hover;
+      }
+    }
+  }
+}

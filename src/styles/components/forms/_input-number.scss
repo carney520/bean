@@ -1,0 +1,30 @@
+$input-number-radius: 1em !default;
+
+@mixin  generate-input-number {
+  .up-disabled,
+  .down-disabled {
+    fill: $light-gray;
+    cursor: not-allowed;
+  }
+
+
+  .input-number-left, .input-number-right {
+    padding-left: .3em;
+    padding-right: .3em;
+    background-color: $white;
+    cursor: pointer;
+    .icon {
+      fill: $dark-gray;
+    }
+  }
+
+  .input-number-left {
+    border-top-left-radius: $input-number-radius !important;
+    border-bottom-left-radius: $input-number-radius !important;
+  }
+
+  .input-number-right {
+    border-top-right-radius: $input-number-radius !important;
+    border-bottom-right-radius: $input-number-radius !important;
+  }
+}

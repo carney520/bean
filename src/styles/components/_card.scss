@@ -1,0 +1,100 @@
+
+$card-body-padding: 1em 1.5em !default;
+
+$card-border: 1px solid $lighter-gray !default;
+$card-border-radius: $global-radius !default
+
+$card-title-size: 1.2em !default;
+$card-title-margin-bottom: .6em !default;
+$card-title-bold: $global-weight-bold !default;
+
+$card-header-font-size: 1.2em !default;
+$card-header-padding: .5em 1.5em !default;
+$card-header-background-color: $white !default;
+$card-header-background-opacity: .6 !default;
+
+$card-background-color: $white !default;
+
+
+@mixin card-base {
+  @include clearfix;
+  display: block;
+  border-radius: $card-border-radius;
+  border: $card-border;
+  background-color: $card-background-color;
+}
+
+@mixin card-header-base {
+  @include clearfix;
+  border-bottom: $card-border;
+  background-color: $card-header-background-color;
+  font-size: $card-header-font-size;
+  padding: $card-header-padding;
+  &:first-child {
+    @include border-top-radius($card-border-radius);
+  }
+}
+
+@mixin card-body-base {
+  @include clearfix;
+  padding: $card-body-padding;
+}
+
+@mixin card-footer-base {
+  border-top: $card-border;
+  background-color: $card-header-background-color;
+  padding: $card-header-padding;
+
+  &:last-child {
+    @include border-bottom-radius($card-border-radius);
+  }
+}
+
+@mixin generate-card {
+  @include block(card) {
+    @include card-base;
+
+    @include element(header) {
+      @include card-header-base;
+    }
+
+    @include element(title) {
+      font-size: $card-title-size;
+      font-weight: $card-title-bold;
+      margin-bottom: $card-title-margin-bottom;
+    }
+
+    @include element(body) {
+      @include card-body-base;
+    }
+
+    @include element(footer) {
+      @include card-footer-base;
+    }
+  }
+
+  @include generate-card-appearance;
+  @include generate-card-theme;
+}
+
+@mixin generate-card-appearance {
+  @include block(card) {
+    @each $name, $color in $global-palette {
+      @include element(header, body, footer) {
+        @include shadow($name) {
+          background-color: rgba($color, $card-header-background-opacity);
+          color: $white;
+          border-color: $white;
+        }
+      }
+    }
+  }
+}
+
+@mixin generate-card-theme {
+  @include each-theme {
+    @include theme($current-theme-name) {
+      @include generate-card-appearance;
+    }
+  }
+}

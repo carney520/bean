@@ -1,0 +1,26 @@
+
+$thumbnail-border: .2em solid $white !default;
+
+$thumbnail-margin-bottom: $global-margin !default;
+
+$thumbnail-shadow: 0 0 0 1px rgba($black, .2) !default;
+
+$thumbnail-radius: 0 !default;
+
+
+@mixin thumbnail-base {
+  position: relative;
+  border: $thumbnail-border;
+  box-shadow: $thumbnail-shadow;
+  display: inline-block;
+  line-height: 0;
+  max-width: 100%;
+  border-radius: $thumbnail-radius;
+  margin-bottom: $thumbnail-margin-bottom;
+}
+
+@mixin generate-thumbnail {
+  @include block(thumbnail) {
+    @include thumbnail-base;
+  }
+}

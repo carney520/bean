@@ -1,0 +1,82 @@
+$spinkit-spinner-margin: 0;
+$spinkit-size: 1em !default;
+$spinkit-spinner-color: currentColor !default;
+
+$spinner-size: (
+  small: 1.5em,
+  default: 2em,
+  large: 3em,
+) !default;
+
+
+@mixin generate-spin {
+  @include block(spin) {
+    position: relative;
+    display: inline-block;
+    color: $global-primary;
+    font-size: map-get($spinner-size, default);
+
+    // size
+    @each $name, $size in map-remove($spinner-size, default) {
+      @include modifier($name) {
+        font-size: $size;
+      }
+    }
+
+    @include element(text) {
+      position: absolute;
+      font-size: 0.4em;
+      white-space: nowrap;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  @include block(spinner) {
+    display: inline-block;
+    line-height: 1;
+
+    @include modifier('.as-wrapper') {
+      display: block;
+      position: relative;
+
+      .spin {
+        display: none;
+        position: absolute;
+        z-index: 500;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    @include modifier('.is-loading') {
+      .spin {
+        display: inline-block;
+      }
+
+      > *:not(.spin) {
+        filter: blur(2px);
+        opacity: .7;
+      }
+    }
+  }
+
+  @include each-theme {
+    @include theme($current-theme-name) {
+      @include block(spin) {
+        color: map-get($global-palette, "primary");
+      }
+    }
+  }
+}
+
+@include generate-spin;
+
+@import
+  "spinners/1-rotating-plane",
+  "spinners/2-double-bounce",
+  "spinners/3-wave",
+  "spinners/4-wandering-cubes",
+  "spinners/9-cube-grid",
+  "spinners/11-folding-cube";

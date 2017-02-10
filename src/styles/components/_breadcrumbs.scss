@@ -1,0 +1,77 @@
+
+$breadcrumbs-margin: 0 0 $global-margin 0 !default;
+
+$breadcrumbs-font-size: convert-to-rem(16px) !default;
+
+$breadcrumbs-icon-color: $medium-gray !default;
+
+$breadcrumbs-item-color: $medium-gray !default;
+
+$breadcrumbs-item-current: $black !default;
+
+$breadcrumbs-item-gutter: .75rem !default;
+
+$breadcrumbs-slash: true !default;
+
+@mixin breadcrumbs-base {
+  @include ghost-center-wrapper;
+  list-style: none;
+  margin: $breadcrumbs-margin;
+}
+
+@mixin breadcrumbs-item {
+  @include ghost-center-content;
+
+  &:last-child {
+    a {
+      color: $breadcrumbs-item-current;
+    }
+  }
+
+  a {
+    font-size: $breadcrumbs-font-size;
+    cursor: pointer;;
+    color: $breadcrumbs-item-color;
+
+   
+    @include hover-focus-active {
+      color: $breadcrumbs-item-current;
+      text-decoration: none;
+    }
+  }
+
+  &.is-disabled {
+    a {
+      opacity: .6 !important;
+      cursor: not-allowed !important;
+      color: $breadcrumbs-item-color !important;
+    }
+  }
+
+
+  @if $breadcrumbs-slash {
+    &:not(:last-child)::after {
+      content: attr(data-separator);
+      color: $medium-gray;
+      margin: 0 $breadcrumbs-item-gutter;
+      position: relative;
+    }
+  } @else {
+    margin-left: $breadcrumbs-item-gutter
+  }
+}
+
+@mixin generate-breadcrumbs {
+  @include block(breadcrumbs) {
+    @include breadcrumbs-base;
+
+    .icon {
+      @include ghost-center-content;
+      margin-right: .5em;
+    }
+
+    @include element(item) {
+      @include breadcrumbs-item;
+    }
+  }
+}

@@ -1,0 +1,35 @@
+///
+/// 全局样式入口
+///
+@import "bean";                //sassbean
+@import "settings/settings";   //全局变量
+@import "utils/mixins";        // helpful mixins
+
+@import "base/normalize";
+@import "base/reset";
+@import "base/type";
+@import "base/print";
+
+@import "utils/classes";
+
+// transitions and animations
+@import "animations/transitions";
+@import "animations/animations";
+
+@import "components/index";
+
+@include normalize;
+@include reset;
+@include typograph;
+@include print;
+@include generate-helper-classes;
+@include generate-animations;
+@include generate-transitions;
+@include generate-component-classes;
+
+/// share variable to javascript
+@include variables-share('.j-theme-keys', (
+  themes: get-theme-keys(),
+  default: get-default-theme-name()
+  )
+);

@@ -1,0 +1,90 @@
+// 全局配置文件
+
+///
+// @group settings
+///
+
+
+/// 全局默认字体大小，跟随浏览器默认设置为16px
+/// @type Number
+$global-font-size: 100% !default;
+$global-font-size-small: .9rem !default;
+
+$global-width: convert-to-rem(1200) !default;
+
+$global-lineheight: 1.5 !default;
+
+/// 调色盘, 语义化命名颜色
+// 网站可能有多套主题,在这里统一声明
+// ⚠️sass-helper 会维护一个`$global-palette` 全局变量，所有组件都应该依赖$global-palette来配色
+@include add-theme(default, (
+    primary: #00B6D7,
+    secondary: #32607a,
+    success: #3adb76,
+    warning: #ffae00,
+    alert: #ec5840,
+  )
+);
+
+@include add-theme(test, (
+    primary: blue,
+    secondary: gray,
+    success: green,
+    warning: orange,
+    alert: red,
+  )
+);
+
+// 所有组件都将使用这个全局配色, 已经隐式声明
+// @type Map
+// $global-palette: get-default-theme() !default;
+
+/// 默认颜色
+$global-primary:   map-get($global-palette,  primary ) !default;
+$global-secondary: map-get($global-palette,  secondary ) !default;
+$global-success:   map-get($global-palette,  success ) !default;
+$global-warning:   map-get($global-palette,  warning ) !default;
+$global-alert:     map-get($global-palette,  alert ) !default;
+
+
+///灰度模式
+$lightest-gray: #f7f7f9 !default;
+$lighter-gray:  #eceeef !default;
+$light-gray:    #dadada !default;
+$medium-gray:   #cacaca !default;
+$dark-gray:     #8a8a8a !default;
+$black:         #0a0a0a !default;
+$white:         #fefefe !default;
+
+/// body 背景颜色, 可以视为透明色
+$body-background: $white !default;
+
+/// 默认字体颜色
+$body-font-color: $black !default;
+
+///字体配置
+/// 摘自amazeUI
+
+/// 无衬线字体, 网站主体字体
+/// @type List
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif !default;
+
+/// 有衬线字体, 用于打印
+/// @type List
+$font-family-serif: Georgia, "Times New Roman", Times, SimSun, "FontAwesome", serif !default; //FangSong, STFangSong
+
+/// 等宽字体, 用于代码显示
+/// @type List
+$font-family-monospace: Monaco, Menlo, Consolas, "Courier New", "FontAwesome", monospace !default;
+
+/// 是否启用字体抗锯齿
+/// @type Boolean
+$font-antialiased: true !default;
+
+$global-weight-normal: normal !default;
+
+$global-weight-bold: bold !default;
+
+$global-radius: .22em !default;
+$global-margin: 1rem !default;
+$global-padding: .5em !default;

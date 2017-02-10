@@ -1,0 +1,34 @@
+@mixin generate-nprogress {
+  $bar-background: $global-primary !default;
+  @include block(nprogress) {
+    @include element(bar) {
+      background-color: $bar-background;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      z-index: 1031;
+    }
+
+    @include element(peg) {
+      display: block;
+      position: absolute;
+      right: 0;
+      width: 100px;
+      height: 100%;
+      box-shadow: 0 0 10px lighten($bar-background, 10%), 0 0 5px lighten($bar-background, 10%);
+      transform: rotate(3deg) translate(0px, -4px);
+    }
+
+    @include element(spinner) {
+      display: block;
+      position: fixed;
+      z-index: 1031;
+      top: 15px;
+      right: 15px;
+      width: 1.4em;
+      height: 1.4em;
+    }
+  }
+}

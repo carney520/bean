@@ -1,0 +1,124 @@
+/// input-group
+/// @example
+///  .form__input-group
+///     .form__addon
+///       .icon(...)
+///     input.form__control(...)
+$input-group-color-at-dark: $white !default;
+$input-group-background: $medium-gray !default;
+$input-group-addon-border: 1px solid $medium-gray !default;
+$input-group-icon-size: 1.3em !default;
+$input-group-icon-fill: $white !default;
+
+@mixin input-group-base {
+  display: table;
+  position: relative;
+  width: 100%;
+  border-collapse: separate;
+  opacity: .8;
+  transition: opacity .3s ease-in-out;
+
+  @include hover-focus-active {
+    opacity: 1;
+  }
+
+  // radius
+  > :first-child {
+    @include border-left-radius($form-control-radius);
+    &:not(:last-child) {
+      @include border-right-radius(0);
+    }
+  }
+
+  > :last-child {
+    @include border-right-radius($form-control-radius);
+    &:not(:first-child) {
+      @include border-left-radius(0);
+    }
+  }
+
+  >:not(:first-child):not(:last-child) {
+    border-radius: 0;
+  }
+}
+
+@mixin input-group-inline {
+  display: inline-table;
+  vertical-align: middle;
+}
+
+%input-group-child {
+  @extend %form-control-base;
+  position: relative;
+  display: table-cell;
+  margin: 0;
+  font-size: inherit;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+@mixin input-group-addon {
+  @include ghost-center-wrapper;
+  @extend %input-group-child;
+  //收缩，伸缩到最小宽度
+  width: 1%;
+  padding-left: .8em;
+  padding-right: .8em;
+  border: $input-group-addon-border;
+  background-color: $input-group-background;
+  text-align: center;
+
+  .icon {
+    @include square(1em);
+    fill: $input-group-icon-fill;
+  }
+}
+
+@mixin input-group-addon-inline {
+  width: auto;
+}
+
+@mixin input-group-control {
+  @extend %input-group-child;
+}
+
+@mixin generate-form-input-group {
+  @include block(form) {
+    @include element(input-group) {
+      @include input-group-base;
+
+      @include shadow(inline) {
+        @include input-group-inline;
+      }
+
+      @include element(control) {
+        @include input-group-control;
+      }
+    }
+
+    @include element(control-addon) {
+      @include input-group-addon;
+      @include shadow(inline) {
+        @include input-group-addon-inline;
+      }
+    }
+  }
+  @include generate-input-group-appearance;
+}
+
+@mixin generate-input-group-appearance {
+  @include block(form) {
+    @include element(input-group) {
+      @each $keyword, $color in $global-palette {
+        // other
+        @include modifier($keyword) {
+          @include element(control-addon) {
+            background-color: $color;
+            border-color: $color;
+            color: $input-group-color-at-dark;
+          }
+        }
+      }
+    }
+  }
+}

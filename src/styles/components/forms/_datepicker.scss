@@ -1,0 +1,169 @@
+$day-active-color: $white !default;
+$day-active-background: lighten($global-primary, 8%) !default;
+$day-today-color: $global-primary !default;
+$day-hover-background: rgba($global-primary, .2)!default;
+$day-pass-background: $lightest-gray !default;
+$day-pass-color: $medium-gray !default;
+$day-disabled-background: $lighter-gray !default;
+$day-disabled-color: $medium-gray !default;
+
+@mixin generate-datepicker {
+  @include block(datepicker) {
+    min-width: 14.2em;
+    user-select: none;
+
+    @include element(head)  {
+      padding: .2em .4em;
+    }
+
+    @include element(title, ctrl, timepicker, done) {
+      display: inline-block;
+      width: 50%;
+    }
+
+    @include element(title) {
+      white-space: nowrap;
+      font-size: 1.1em;
+      text-align: left;
+    }
+
+    @include element(ctrl) {
+      text-align: right;
+    }
+
+    @include element(year, month) {
+      vertical-align: middle;
+    }
+
+    @include element(year) {
+      font-weight: bold;
+      color: $medium-gray;
+    }
+
+    @include element(month) {
+      color: $dark-gray;
+    }
+
+    @include element(time) {
+      font-size: 1.4em;
+      font-weight: bold;
+      line-height: 1;
+      text-align: left;
+      color: $dark-gray;
+    }
+
+    @include element(btn) {
+      @include square(1.2em);
+      fill: $dark-gray;
+      cursor: pointer;
+
+      &.is-disabled {
+        fill: $lighter-gray;
+        cursor: not-allowed;
+      }
+    }
+
+    @include element(content) {
+      width: 100%;
+      padding: .2em .5em;
+
+      .time-picker {
+        margin: .18em 0;
+        font-size: 1.1em;
+      }
+    }
+
+    @include element(content-inner) {
+      width: 100%;
+      text-align: center;
+      opacity: 1;
+      transition: opacify .2s ease;
+    }
+
+    @include element(week-range) {
+      font-size: .8em;
+      color: $dark-gray;
+    }
+
+    @include element(week) {
+      padding: .4em 0;
+    }
+
+    @include element(date-range) {
+      font-size: .9em;
+    }
+
+    @include element(day) {
+      padding: .2em;
+      cursor: pointer;
+
+
+      &.is-active,
+      &[is-active] {
+        @include element(day-inner) {
+          border-radius: 1.6em;
+          background-color: $day-active-background !important;
+          color: $day-active-color !important;
+          font-weight: bold;
+        }
+      }
+
+      &.is-today {
+        @include element(day-inner) {
+          color: $day-today-color;
+          font-weight: bold;
+        }
+      }
+
+      &.is-in-range,
+      &[is-in-range] {
+        background-color: $day-hover-background !important;
+      }
+
+      &.is-pass,
+      &.is-future {
+        background-color: $day-pass-background;
+        color: $day-pass-color;
+      }
+
+      &.is-disabled,
+      &[is-disabled] {
+        background-color: $day-disabled-background !important;
+        color: $day-disabled-color !important;
+        cursor: not-allowed;
+        @include element(day-inner) {
+          &:hover {
+            background-color: inherit;
+          }
+        }
+      }
+
+      // 隐藏相邻月
+      @include shadow (hide-adjacent) {
+        &.is-pass,
+        &.is-future {
+          visibility: hidden;
+        }
+      }
+    }
+
+    @include element(day-inner) {
+      display: inline-block;
+      @include square(1.6em);
+      padding: .0625em;
+
+      &:hover {
+        background-color: $day-hover-background;
+      }
+    }
+
+    @include element(foot) {
+      padding: .2em .5em;
+
+      .button:not(:first-child) {
+        margin-left: .5em;
+      }
+    }
+
+  }
+}

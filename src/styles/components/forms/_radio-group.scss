@@ -1,0 +1,9 @@
+@mixin generate-radio-group {
+  @include block(radio-group) {
+    @include modifier(vertical) {
+      @include child(bem-element(form-checkbox, wrapper)) {
+        display: block;
+      }
+    }
+  }
+}

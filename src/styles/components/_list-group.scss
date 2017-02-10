@@ -1,0 +1,102 @@
+
+$list-group-background: $white !default;
+$list-group-hover: 5% !default;
+
+$list-group-border: 2px solid $light-gray !default;
+$list-group-radius: $global-radius !default;
+$list-group-cell-border: 1px solid $lighter-gray !default;
+
+$list-group-item-padding-x:  1em !default;
+$list-group-item-padding-y: .5em !default;
+
+$list-group-margin: $global-margin !default;
+
+
+
+@mixin list-group {
+  position: relative;
+  display: table;
+  width: 100%;
+  margin-bottom: $list-group-margin;
+  background-color: $list-group-background;
+}
+
+@mixin list-group-cell {
+  display: table-cell;
+  vertical-align: top;
+
+  // TODO 等分布局
+  @for $i from 2 through 10 {
+    @include quantity($i) {
+      width: percentage(1 / $i);
+    }
+  }
+}
+
+@mixin list-group-head {
+  padding: $list-group-item-padding-y $list-group-item-padding-x;
+  white-space: nowrap;
+  margin: 0;
+}
+
+@mixin list-group-list {
+  padding: $list-group-item-padding-y $list-group-item-padding-x;
+  margin: 0;
+  list-style: none;
+}
+
+@mixin list-group-item {
+  margin: $list-group-item-padding-y 0;
+  padding: 0;
+  white-space: nowrap;
+}
+
+@mixin generate-list-group{
+  @include block(list-group) {
+    @include list-group;
+
+    // bordered
+    @include modifier(bordered) {
+      border: $list-group-border;
+      border-radius: $list-group-radius;
+    }
+
+    @include modifier(responsive) {
+      // defined in ./_table.scss
+      @include table-responsive;
+    }
+
+    @include element(cell) {
+      @include list-group-cell;
+
+      // bordered
+      @include shadow(bordered) {
+        &:not(:last-child) {
+          border-right: $list-group-cell-border;
+        }
+      }
+      //hover
+      @include shadow-child(hover) {
+        &:hover {
+          background-color: darken($list-group-background, $list-group-hover);
+        }
+      }
+    }
+
+    @include element(head) {
+      @include list-group-head;
+      @include shadow(bordered) {
+        border-bottom: $list-group-cell-border;
+      }
+    }
+
+    @include element(list) {
+      @include list-group-list;
+    }
+
+    @include element(item) {
+      @include list-group-item;
+    }
+
+  }
+}

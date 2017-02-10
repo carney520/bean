@@ -1,0 +1,49 @@
+@mixin generate-notification {
+  @include block(notifications) {
+    position: fixed;
+    right: 0;
+    top: 24px;
+    margin-right: 24px;
+    width: 335px;
+    z-index: 1000;
+  }
+
+  @include block(notification) {
+    position: relative;
+    padding: .95em;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background-color: $white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+
+    @include element(body) {
+      @include shadow(".with-icon") {
+        margin-left: 2.5em;
+      }
+    }
+
+    @include element(title) {
+      font-size: 1.05em;
+      line-height: 1.2em;
+      margin-bottom: 4px;
+      padding-right: 24px;
+    }
+
+    @include element(content) {
+      font-size: .9em;
+      color: $dark-gray;
+    }
+
+    @include element(icon) {
+      float: left;
+      width: 2em !important;
+      height: 2em !important;
+    }
+
+    @include element(actions) {
+      margin-top: 3px;
+      text-align: right;
+    }
+  }
+}

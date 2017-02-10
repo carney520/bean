@@ -1,0 +1,77 @@
+/// import all components
+////
+/// @access public
+////
+
+@import "./button";
+@import "./button-group";
+@import "./close_button";
+@import "./alert";
+@import "./breadcrumbs";
+@import "./dropdown";
+@import "./card";
+// @import "./forms";
+// @import "./input-group";
+@import "./forms/forms";
+
+@import "./table";
+@import "./modal";
+@import "./confirm";
+@import "./pagination";
+@import "./icon-group";
+@import "./notification";
+@import "./loaders";
+@import "./tooltip";
+@import "./popover";
+@import "./popover-confirm";
+@import "./list-group";
+@import "./list";
+@import "./thumbnail";
+@import "./mask";
+@import "./media-object";
+@import "./tab";
+@import "./grid/grid";
+@import "./tree";
+@import "./icon";
+@import "./menu";
+@import "./message";
+@import "./nprogress";
+@import "./spinners/index";
+
+@mixin generate-component-classes {
+  //grid
+  @include generate-bem-grid-classes;
+  @include generate-block-grid;
+
+  @include generate-button;
+  @include generate-button-group;
+  @include generate-alert;
+  @include generate-close-button;
+  @include generate-breadcrumbs;
+  @include generate-dropdown;
+  @include generate-card;
+  // @include generate-forms;
+  // @include generate-input-group;
+  @include generate-form-components;
+  @include generate-table;
+  @include generate-modal;
+  @include generate-confirm;
+  @include generate-pagination;
+  @include generate-icon-group;
+  @include generate-notification;
+  @include generate-loaders;
+  @include generate-tooltip;
+  @include generate-popover;
+  @include generate-popover-confirm;
+  @include generate-list-group;
+  @include generate-list;
+  @include generate-thumbnail;
+  @include generate-mask;
+  @include generate-media-object;
+  @include generate-tab;
+  @include generate-tree;
+  @include generate-icon;
+  @include generate-menu;
+  @include generate-message;
+  @include generate-nprogress;
+}

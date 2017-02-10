@@ -1,0 +1,86 @@
+$text-muted-color: $dark-gray !default;
+$text-small-color: $small-font-size !default;
+
+@mixin generate-text-util {
+  .text-small {
+    font-size: $text-small-color !important;
+  }
+
+  .text-muted {
+    color: $text-muted-color !important;
+  }
+
+  .text-ellipsis {
+    @include ellipsis;
+  }
+
+  .text-left {
+    text-align: left !important;
+  }
+
+  .text-right {
+    text-align: right !important;
+  }
+
+  .text-center {
+    text-align: center !important;
+  }
+
+  .text-nowrap {
+    white-space: nowrap;
+  }
+
+  .text-break {
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+
+  @include generate-text-color;
+  @include generate-text-color-theme;
+}
+
+
+@mixin generate-text-color {
+  @each $name, $color in $global-palette {
+    .text-#{$name} {
+      color: $color !important;
+    }
+  }
+}
+
+@mixin generate-text-color-theme {
+  @include each-theme {
+    @include theme($current-theme-name) {
+      @include generate-text-color;
+    }
+  }
+}
+
+@mixin generate-background-util {
+}
+
+@mixin generate-util-classes {
+  @include generate-text-util;
+
+  .pull-left {
+    float: left !important;
+  }
+  .pull-right {
+    float: right !important;
+  }
+
+  .element-invisible {
+    opacity: 0 !important;
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip: rect(0,0,0,0) !important;
+  }
+
+  .scrollable-horizontal {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+}

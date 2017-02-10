@@ -1,0 +1,260 @@
+// 文本输入框
+$form-label-color: $dark-gray;
+/// line-height
+$form-control-lineheight:        $global-lineheight !default;
+/// 控件的内边距
+$form-control-padding: .35em !default;
+
+/// color
+$form-control-color:             $black !default;
+$form-control-color-disabled:    $dark-gray !default;
+
+/// placeholder color
+$form-control-placeholder-color: $medium-gray !default;
+
+$form-control-select-triangle-color: $dark-gray !default;
+
+/// background
+$form-control-background:          #F1F2F7 !default;
+$form-control-background-disabled: $lighter-gray !default;
+$form-control-background-active:   $white !default;
+
+/// border
+$form-control-radius:            3px !default;
+
+/// shadow & transition
+$form-control-shadow:            inset 0 0 3px $medium-gray !default;
+$form-control-transition:        box-shadow .3s, background-color 0.25s ease-in-out !default;
+
+
+/// for help text
+$helptext-font-size: convert-to-rem(13px) !default;
+$helptext-color: $dark-gray !default;
+
+%form-control-base {
+  padding-top: $form-control-padding;
+  padding-bottom: $form-control-padding;
+  line-height: $form-control-lineheight;
+}
+
+/// placeholder text
+%placeholder {
+  color: $form-control-placeholder-color;
+}
+
+@mixin form-label {
+  color: $form-label-color;
+  text-shadow: 0 0 0;
+  span {
+    vertical-align: middle;
+  }
+}
+
+/// label & static
+@mixin form-label-and-static {
+  @extend %form-control-base;
+  display: block;
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+
+@mixin form-label-and-static-inline {
+  display: inline-block;
+  width: auto;
+  margin-right: $form-control-spacing;
+  vertical-align: middle;
+}
+
+/// form control
+@mixin form-control-base {
+  @extend %form-control-base;
+  display: block;
+  width: 100%;
+  // 避免没有内容时压扁
+  min-height: 1em * $form-control-lineheight + $form-control-padding * 2;
+  padding-left: $form-control-padding;
+  padding-right: $form-control-padding;
+  border: none;
+  border-radius: $form-control-radius;
+  background-color: $form-control-background;
+  color: $form-control-color;
+  box-shadow: $form-control-shadow;
+  transition: $form-control-transition;
+
+  &:focus, &.is-focus,
+  &:active {
+    outline: none;
+    background-color: $form-control-background-active;
+  }
+}
+
+/// form control disbaled
+@mixin form-control-disabled {
+  background-color: $form-control-background-disabled;
+  color: $form-control-color-disabled;
+  cursor: not-allowed;
+}
+
+/// form control inline
+@mixin form-control-inline {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+}
+
+/// textarea
+@mixin form-textarea {
+  max-width: 100%;
+
+  &[rows] {
+    height: auto;;
+  }
+}
+
+/// select
+@mixin form-select {
+  //禁止下拉框的默认按钮
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  &[multiple] {
+    height: auto;
+  }
+}
+
+
+/// checkbox & radio
+@mixin form-check {
+  @extend %form-control-base;
+  position: relative;
+  display: block;
+  margin-left: $form-control-spacing / 2;
+  margin-right: $form-control-spacing;
+
+  label {
+    display: inline-block;
+    margin-bottom: 0;
+    cursor: pointer;
+    //为按钮留出空间
+    padding-left: 1.25rem;
+  }
+
+  [type='checkbox'],
+  [type='radio'] {
+    position: absolute;
+    margin-top: .25rem;
+    margin-left: -1.25rem;
+  }
+}
+
+@mixin form-check-inline {
+  display: inline-block;
+  margin-top: 0;
+  margin-bottom: 0;
+  vertical-align: middle;
+  label {
+    padding-left: 0;
+  }
+  [type='checkbox'],
+  [type='radio'] {
+    position: relative;;
+    margin-left: 0;
+  }
+}
+
+@mixin form-help-text {
+  font-size: $helptext-font-size;
+  color: $helptext-color;
+}
+
+/// clear button
+@mixin form-clear {
+  @include square(1.1em);
+  position: absolute;
+  right: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  fill: $medium-gray;
+
+  @include hover-focus-active {
+    fill: $dark-gray;
+  }
+}
+
+/// 生成样式
+@mixin generate-form-controls {
+  @include block(form) {
+
+    /// label
+    @include element(label, static) {
+      @include form-label-and-static;
+      @include shadow(inline) {
+        @include form-label-and-static-inline;
+      }
+    }
+
+    @include element(label) {
+      @include form-label;
+    }
+
+    /// placeholder
+    @include element(placeholder) {
+      @extend %placeholder;
+    }
+
+    /// control
+    @include element(control) {
+      @include form-control-base;
+
+      @include shadow(inline) {
+        @include form-control-inline;
+      }
+
+      /// disabled
+      @include modifier(disabled, ':disabled', '.is-disabled', '[disable]') {
+        @include form-control-disabled;
+      }
+
+      @include modifier('::placeholder') {
+        @extend %placeholder;
+      }
+
+      /// as textarea
+      @include append-to(textarea, '.as-textarea') {
+        @include form-textarea;
+      }
+
+      /// as select
+      @include append-to(select, '.as-select') {
+        @include form-select;
+      }
+    }
+
+    /// checkbox & redio
+    @include element(check) {
+      @include form-check;
+      @include shadow(inline) {
+        @include form-check-inline;
+      }
+    }
+
+    /// custom controls
+    @include element(switch, slider) {
+      @extend %form-control-base;
+    }
+
+    /// assistant 辅助性的小部件
+    /// helptext
+    @include element(help-text) {
+      @include form-help-text;
+      @include shadow(inline) {
+        text-align: right;
+      }
+    }
+
+    /// clear button & caret
+    @include element(clear, caret) {
+      @include form-clear;
+    }
+  }
+}

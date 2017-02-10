@@ -1,0 +1,9 @@
+@mixin generate-checkbox-group {
+  @include block(checkbox-group) {
+    @include modifier(vertical) {
+      @include child(bem-element(form-checkbox, wrapper)) {
+        display: block;
+      }
+    }
+  }
+}

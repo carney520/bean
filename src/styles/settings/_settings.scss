@@ -1,0 +1,25 @@
+///
+/// 配置文件
+///
+@import "global";        //网站全局样式
+@import "z-index";
+@import "sass-helpers";  //sass-helper 的配置文件
+
+// sassbean
+$breakpoint-classes: (small medium large xlarge);
+
+/// global
+$global-radius: 0;
+$global-margin: .5rem;
+
+$header-bar-height: convert-to-rem(52px);
+$header-bar-padding: .3rem 0;
+
+
+/// pagination
+$pagination-item-hover-background: warning;
+$pagination-item-radius: 0;
+
+
+// form
+$form-control-spacing: .8em;

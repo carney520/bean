@@ -1,0 +1,201 @@
+
+// color
+$table-background: $white !default;
+
+$table-color-accent: 5% !default;
+$table-color-hover: 2% !default;
+
+// table cell padding
+$table-sizes: (
+  default: .75rem,
+  small: .3rem
+) !default;
+
+$table-margin: $global-margin !default;
+
+@mixin table-base {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: $table-margin;
+  background-color: $table-background;
+
+  $border-color: darken($table-background, $table-color-accent);
+  th,
+  td {
+    padding: map-get($table-sizes, default);
+    vertical-align: top;
+  }
+
+  tbody {
+    th,
+    td {
+      border-top: 1px solid $border-color;
+    }
+  }
+
+  thead {
+    th,
+    td {
+      vertical-align: bottom;
+      border-bottom: 2px solid $border-color;
+      white-space: nowrap;
+    }
+  }
+}
+
+
+// use with .scrollable-horizontal
+@mixin table-responsive {
+  max-width: none;
+  width: auto;
+  min-width: 100%;
+}
+
+@mixin table-bordered {
+  $border-color: darken($table-background, $table-color-accent);
+
+  border: 1px solid $border-color;
+
+  thead {
+    th,
+    td {
+      border-bottom-width: 2px;
+    }
+  }
+
+  th,
+  td {
+    border: 1px solid $border-color;
+  }
+}
+
+@mixin table-striped {
+  tbody tr:nth-of-type(odd) {
+    background-color: darken($table-background, $table-color-accent);
+    &:hover {
+      background-color: darken($table-background, $table-color-accent + $table-color-hover);
+    }
+  }
+}
+
+@mixin table-hover {
+  tbody tr {
+    &:hover {
+      background-color: darken($table-background, $table-color-hover);
+    }
+  }
+}
+
+
+@mixin generate-table {
+  @include block(table) {
+    @include table-base;
+
+    @include modifier(small) {
+      th,
+      td {
+        padding: map-get($table-sizes, small);
+      }
+    }
+
+    @include modifier(bordered) {
+      @include table-bordered;
+    }
+
+    @include modifier(striped) {
+      @include table-striped;
+    }
+
+    @include modifier(hover) {
+      @include table-hover;
+    }
+
+    @include modifier(responsive) {
+      @include table-responsive;
+    }
+
+    @include modifier(middle) {
+      td {
+        vertical-align: middle;
+      }
+    }
+
+    @include modifier(bottom) {
+      td {
+        vertical-align: bottom;
+      }
+    }
+
+    @include modifier(top) {
+      td {
+        vertical-align: top;
+      }
+    }
+
+    @include element(head) {
+      @include modifier(middle) {
+        td, th {
+          vertical-align: middle;
+        }
+      }
+    }
+
+
+    // 控制表格列宽
+    @include modifier(fixed) {
+      table-layout: fixed;
+    }
+
+    %table-col {
+      white-space: nowrap;
+    }
+    // table__col--<$i>
+    // 12 grid
+    // deprecated
+    @include element(col) {
+      @for $i from 1 through 12 {
+        &--#{$i} {
+          @extend %table-col;
+          width: percentage($i / 12);
+        }
+      }
+    }
+
+    // 24 grid
+    @include element(col-24) {
+      @for $i from 1 through 24 {
+        &--#{$i} {
+          @extend %table-col;
+          width: percentage($i / 24);
+        }
+      }
+    }
+  }
+
+  @include generate-table-appearance;
+  @include generate-table-theme;
+}
+
+@mixin generate-table-appearance {
+  @include block(table) {
+    @each $name, $color in $global-palette {
+      @include element(row) {
+        @include modifier($name) {
+          th,
+          td {
+            color: $white;
+            background-color: $color;
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin generate-table-theme {
+  @include each-theme {
+    @include theme($current-theme-name) {
+      @include generate-table-appearance;
+    }
+  }
+}

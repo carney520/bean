@@ -1,0 +1,149 @@
+/// modal backdrop
+$modal-backdrop-background: rgba($black, .3) !default;
+
+
+/// modal content
+$modal-background: $white !default;
+$modal-border: 1px solid translate !default;
+$modal-radius: $global-radius !default;
+
+$modal-z-index: $z-modal !default;
+
+$modal-max-width: $global-width !default;
+$modal-sizes: (
+  small: convert-to-rem(300px),
+  default: convert-to-rem(600px),
+  large: convert-to-rem(900px),
+  xlarge: convert-to-rem(1200px),
+) !default;
+
+/// modal header
+$modal-header-background: $white !default;
+$modal-header-padding: .4em 1em !default;
+$modal-header-border: 1px solid $lighter-gray !default;
+$modal-header-text-align: center !default;
+
+/// modal-content
+$modal-content-padding: .6em 1em !default;
+
+/// modal-footer
+$modal-footer-background: $white !default;
+$modal-footer-padding: 1em 1em !default;
+$modal-footer-border: 1px solid $lighter-gray !default;
+$modal-footer-text-align: center !default;
+
+
+@mixin modal-dialog-base {
+  position: relative;
+  top: 8em;
+  width: map-get($modal-sizes, default);
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 8em;
+  z-index: $modal-z-index + 1;
+  // overflow-y: auto;
+  outline: 0;
+  border: $modal-border;
+  border-radius: $modal-radius;
+  background-color: $modal-background;
+}
+
+@mixin modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $modal-z-index;
+  overflow-y: scroll;
+  background-color: $modal-backdrop-background;
+}
+
+@mixin modal-header {
+  position: relative;
+  background-color: $modal-header-background;
+  padding: $modal-header-padding;
+  border-bottom: $modal-header-border;
+  text-align: $modal-header-text-align;
+
+  & > * {
+    margin: 0;
+  }
+}
+
+@mixin modal-content {
+  position: relative;
+  padding: $modal-content-padding;
+}
+
+@mixin modal-footer {
+  position: relative;
+  background-color: $modal-footer-background;
+  padding: $modal-footer-padding;
+  border-top: $modal-footer-border;
+  text-align: $modal-footer-text-align;
+}
+
+@mixin generate-modal {
+  body.modal-open {
+    overflow: hidden;
+  }
+
+  @include block(modal) {
+    @include modal-backdrop;
+    @include element(dialog) {
+      @include modal-dialog-base;
+
+      //size
+      @each $name, $size in map-remove($modal-sizes, default) {
+        @include shadow($name) {
+          width: $size;
+        }
+      }
+
+    }
+    @include element(header) {
+      @include modal-header;
+    }
+
+    @include element(content) {
+      @include modal-content;
+    }
+
+    @include element(footer) {
+      @include modal-footer;
+      .button {
+        margin-bottom: 0;
+        &:not(:last-child) {
+          margin-right: 1rem;
+        }
+      }
+    }
+  }
+
+  //default theme
+  @include generate-modal-appearance;
+  //other theme
+  @include generate-modal-theme;
+}
+
+@mixin generate-modal-appearance {
+  @include block(modal) {
+    @each $name, $color in $global-palette {
+      @include element(header) {
+        @include modifier($name) {
+          background-color: $color;
+          color: $white;
+        }
+      }
+    }
+  }
+}
+
+@mixin generate-modal-theme {
+  @include each-theme {
+    @include theme($current-theme-name) {
+      @include generate-modal-appearance;
+    }
+  }
+}
