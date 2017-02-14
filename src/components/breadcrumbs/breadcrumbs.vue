@@ -2,7 +2,7 @@
   .breadcrumbs
     template(v-if="useVueRouter")
       .breadcrumbs__item(v-for="item in breadcrumbs", :data-separator="separator") 
-        a(v-link="{name: item.name}")
+        a(v-link="{path: item.path}")
           icon(v-if="item.icon", :name="item.icon")
           | {{item.title}}
     template(v-else)
@@ -49,6 +49,7 @@
                 icon: item.crumbs.icon
               }
             }
+            crumb.path = item.path
             crumbs.push(crumb)
           }
         }
