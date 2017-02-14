@@ -68,10 +68,6 @@
          type: String,
        },
 
-       method: {
-         type: String,
-       },
-
        // 表单验证规则
        validators: {
          type: Object,
@@ -86,16 +82,13 @@
            }
          },
        },
+       // hack, 用于双向获取form 的状态
+       getStatus: {}
      },
 
      data () {
        return {
-         status: {
-           submitting: false,
-           validating: false,
-           invalid: false,
-           errors: [],
-         },
+         submitting: false,
 
          // 所有控件字段
          fieldsDesc: {},
@@ -108,19 +101,48 @@
      },
 
      computed: {
-       isSubmitting: {
-         get () {
-           return this.status.isSubmitting
-         },
-         set (val) {
-           this.status.isSubmitting = val
-         },
+       validating () {
+        return this.fieldsQueue.some(name => {
+          return this.fieldsDesc[name].validating
+        })
        },
+
+       invalid () {
+        return this.fieldsQueue.some(name => {
+          return this.fieldsDesc[name].invalid
+        })
+       },
+
+       errors () {
+         let error = []
+         this.fieldsQueue.forEach(name => {
+           let field = this.fieldsDesc[name]
+           if(field.invalid) {
+             error = error.concat(field.errors)
+           }
+         })
+
+         return error
+       },
+
+       _status () {
+         let {submitting, validating, invalid, errors} = this
+         return {
+           submitting, validating, invalid, errors
+         }
+       },
+
        formClasses () {
          return [
            `--${this.layout}`,
          ]
        },
+     },
+
+     watch: {
+       _status (value) {
+         this.getStatus = value
+       }
      },
 
      methods: {
@@ -133,10 +155,9 @@
            isExisted = true
          }
          // 注意如果在form ready后注册，则不能保证index的准确性
-         this.fieldsDesc[name] = {
+         let desc = {
            instance: vm,
            index: isExisted ? this.fieldsQueue.indexOf(name) : this.fieldsQueue.length,
-           touched: false,
            modified: false,
            invalid: false,
            errors: [],
@@ -146,6 +167,8 @@
            // 特定控件的validate schema
            _schema: null,
          }
+
+         this.$set(`fieldsDesc.${name}`, desc)
 
          if(!isExisted) {
            this.fieldsQueue.push(name)
@@ -315,8 +338,8 @@
          let field = this.getField(name)
          if (field) {
            field.instance.setError(null, null)
-           field.errors = []
            field.invalid = false
+           field.errors = []
          }
        },
 
@@ -324,8 +347,8 @@
          let field = this.getField(name)
          if (field) {
            const messages = errors.map(({message}) => message)
-           field.errors = messages
            field.invalid = true
+           field.errors = messages
            field.instance.setError('alert', messages)
          }
        },
@@ -337,8 +360,8 @@
          // 重置验证结果
          for (let name in this.fieldsDesc) {
            let field = this.fieldsDesc[name]
-           field.errors = []
            field.invalid = false
+           field.errors = []
            field.validating = true
            field.instance.setError(null, null)
          }
@@ -416,14 +439,19 @@
 
        //提交表单
        _submit (event) {
-         this.status.submitting = true
+         this.submitting = true
 
-         this.validateFields((errors) => {
-           this.status.submitting = false
-           if (!errors) {
-             this.$notify('onsubmit', event)
-           }
-         })
+         if (this.validators == null) {
+           this.submitting = false
+           this.$notify('onsubmit', event)
+         } else {
+           this.validateFields((errors) => {
+             this.submitting = false
+             if (!errors) {
+               this.$notify('onsubmit', event)
+             }
+           })
+         }
        },
 
        // 重置表单

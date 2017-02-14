@@ -21,6 +21,13 @@ article
       .preview-title 简单模式
       .preview-container.test-modal
         b-pagination(simple, count="5", :current.sync="one")
+
+    .preview
+      .preview-title 尺寸
+      .preview-container.test-modal
+        b-pagination(count="5", :current.sync="one", size="small")
+        b-pagination(count="5", :current.sync="one")
+        b-pagination(count="5", :current.sync="one", size="large")
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template lang="jade">
-  dropdown(v-ref:dropdown, :disabled="disabled", :dropdown-style="_dropdownStyle")
+  dropdown.form__select(v-ref:dropdown, :disabled="disabled", :dropdown-style="_dropdownStyle")
     slot
       //- 输入框, 可以传入slot替换
       .form__control(:class="selectClasses")

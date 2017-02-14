@@ -1,5 +1,5 @@
 <template lang="jade">
-  dropdown(v-ref:dropdown, :disabled="disabled", :dropdown-style="_dropdownStyle")
+  dropdown.form__select(v-ref:dropdown, :disabled="disabled", :dropdown-style="_dropdownStyle")
     .form__control-wrapper
       .form__control.as-select(
         v-el:input,

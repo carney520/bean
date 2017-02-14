@@ -202,13 +202,26 @@ $helptext-color: $dark-gray !default;
       @extend %placeholder;
     }
 
+    @include element(datepicker) {
+      min-width: 17.5em;
+    }
+
+    @include element(control, select, datepicker) {
+      @include shadow(inline) {
+        @include form-control-inline;
+      }
+    }
+
+    @include element(select) {
+      .form__control {
+        width: 100% !important;
+      }
+    }
+
     /// control
     @include element(control) {
       @include form-control-base;
 
-      @include shadow(inline) {
-        @include form-control-inline;
-      }
 
       /// disabled
       @include modifier(disabled, ':disabled', '.is-disabled', '[disable]') {

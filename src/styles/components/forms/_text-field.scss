@@ -17,6 +17,7 @@
 
     @include element(inner) {
       @include ghost-center-wrapper;
+      padding-right: 2em;
       position: relative;
       display: table-cell;
       width: 100%;

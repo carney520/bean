@@ -5,7 +5,7 @@
   focus
 -->
 <template lang="jade">
-  dropdown(v-ref:dropdown, :disabled="disabled", :dropdown-style="_dropdownStyle")
+  dropdown.form__select(v-ref:dropdown, :disabled="disabled", :dropdown-style="_dropdownStyle")
     slot
       .form__control(:class="selectClasses")
         .text-field__wrapper

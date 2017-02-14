@@ -65,7 +65,17 @@ article
     .preview
       .preview-title 气泡确认框
       .preview-container.test-tooltip
-        b-popover-confirm(title="确认删除?", position="right")
+        b-popover-confirm(title="确认删除?", position="right", @onconfirm="confirm")
           b-button(theme="alert") 删除 
 
 </template>
+
+<script>
+  export default {
+    methods: {
+      confirm () {
+        alert('onconfirm')
+      }
+    }
+  }
+</script>

@@ -1,6 +1,6 @@
 <template lang="jade">
   .notification(v-show="show", transition="notify", :class="{'with-icon': showIcon}")
-    icon.notification__icon(v-if="showIcon", :name="_iconName", :color="_iconColor")
+    icon.notification__icon(v-if="showIcon", :name="_iconName", :color="_iconColor", awesome)
     button.notification__close.close-button(@click="close")
     .notification__body
       .notification__title {{ title }}

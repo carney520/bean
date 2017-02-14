@@ -40,6 +40,10 @@
         type: String,
         default: '确定'
       },
+      manual: {
+        type: Boolean,
+        coerce: coerceBoolean
+      },
       cancelText: {
         type: String,
         default: '取消'
@@ -76,16 +80,25 @@
       close (event) {
         if (this.beforeClose) {
           this.beforeClose(() => {
-            this.hide()
+            this.hide(event)
           })
         } else {
-          this.hide()
+          this.hide(event)
         }
       },
 
-      hide () {
-        this.show = false
-        this.$emit('onclose', {confirm: event === 'confirm'})
+      hide (event) {
+        if (event === 'confirm') {
+          this.$emit('onconfirm')
+        } else {
+          this.$emit('onclose')
+        }
+
+        if (this.manual) {
+          return
+        } else {
+          this.show = false
+        }
       },
 
       cancel () {

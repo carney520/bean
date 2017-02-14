@@ -1,6 +1,6 @@
 <template lang="jade">
   nav
-   ul.pagination
+   ul.pagination(:class="paginationClass")
      li.pagination__item(
        :class="{ '--disabled': !hasPrev }",
        @click="goToPrev") {{ prevText }}
@@ -64,10 +64,18 @@
       simple: {
         type: Boolean,
         coerce: coerceBoolean
-      }
+      },
+
+      size: String
     },
 
     computed: {
+      paginationClass () {
+        return [
+          this.size && `--${this.size}`
+        ]
+      },
+
       hasPrev () {
         return this.current > 1
       },

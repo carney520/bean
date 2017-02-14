@@ -11,6 +11,7 @@ import Option from './select/option'
 import TreeSelect from './tree-select/tree-select'
 import Cascader from './cascader/cascader'
 import Input from './input/input'
+import InputGroup from './input/input-group'
 import InputNumber from './input/input-number'
 import Form from './form/form'
 import FormGroup from './form-group/form-group'
@@ -31,6 +32,7 @@ export {
   TreeSelect,
   Cascader,
   Input,
+  InputGroup,
   InputNumber,
   Form,
   FormGroup,

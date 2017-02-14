@@ -70,8 +70,10 @@ article
             b-label Name:
             b-input
           b-form-group
-            b-label Password:
-            b-input(type="password")
+            b-label select:
+            b-select
+              b-option(value="1") one
+              b-option(value="2") two
 
     .preview
       .preview-title help text
@@ -100,7 +102,7 @@ article
     .preview
       .preview-title 表单验证
       .preview-container.test-form
-        b-form(:validators="validators")
+        b-form(:validators="validators", v-ref:form, :get-status.sync="status")
           b-form-group
             b-label Name:
             b-input(name="name")
@@ -114,6 +116,8 @@ article
             b-input(type="password", name="passwordAgain")
             b-help-text(for="passwordAgain")
           b-button(native-type="submit") 提交
+          code.
+            status: {{ status | json }}
 </template>
 
 <script>
@@ -121,6 +125,7 @@ article
     data () {
       return {
         sex: '男',
+        status: {},
         validators: {
           name: {
             trigger: 'onblur',

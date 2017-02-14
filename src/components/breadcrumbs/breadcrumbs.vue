@@ -35,7 +35,6 @@
         let matched = this.$route.matched
         for (let i = 0, l = matched.length; i < l; i++) {
           let item = matched[i].handler
-          console.log(item)
           if (item.crumbs) {
             let crumb
             if (typeof item.crumbs === 'string') {

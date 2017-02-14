@@ -21,11 +21,11 @@ var webpackConfig = {
     new webpack.BannerPlugin(`Bean v${pkg.version}\nLicensed under the ${pkg.license} license.`, {
       entryOnly: false
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false
+    //   }
+    // }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new ExtractTextPlugin('bean.css')
   ],
@@ -36,7 +36,7 @@ var webpackConfig = {
         browsers: ['not ie <= 8', 'last 2 versions']
       }
     }, helpers.vueStyles({extract: true}))
-  },
+  }
 }
 
 module.exports = merge(baseConfig, webpackConfig)

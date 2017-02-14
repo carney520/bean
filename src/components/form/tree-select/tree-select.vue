@@ -1,5 +1,5 @@
 <template lang="jade">
-  dropdown(v-ref:dropdown, :disabled="disabled", :dropdown-style="_dropdownStyle")
+  dropdown.form__select(v-ref:dropdown, :disabled="disabled", :dropdown-style="_dropdownStyle")
     .form__control-wrapper
       .form__control.as-select(
         v-el:input,
@@ -18,7 +18,7 @@
             .form__tags(v-else)
               .form__tag(v-for="item of selected")
                 .form__tag-title {{ item[labelKey] }}
-                icon.form__tag-close(name="times", @click.prevent.stop="remove(item)")
+                icon.form__tag-close(name="times", @click.prevent.stop="remove(item)", awesome)
             //- 树搜索
             //-TODO
             //- input.form__show-search(type="text")
@@ -32,7 +32,7 @@
               transition="fade",
               @click.stop.prevent="clear")
           .text-field__addon
-            icon.icon-inset-control(name="sort")
+            icon.icon-inset-control(name="sort", awesome)
 
     //- 树形菜单
     .tree-content(slot="menu")

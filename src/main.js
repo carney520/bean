@@ -1,7 +1,7 @@
 import installMixins from './lib/mixins'
 
 // import scss
-import Style from './styles/style' // eslint-disable-line
+import './styles/style'
 import { Button, ButtonGroup } from './components/button'
 import { Grid, Cell } from './components/grid'
 import { Icon } from './components/icon'
@@ -21,6 +21,7 @@ import {
   TreeSelect,
   Cascader,
   Input,
+  InputGroup,
   InputNumber,
   Form,
   FormGroup,
@@ -62,6 +63,7 @@ const components = {
   TreeSelect,
   Cascader,
   Input,
+  InputGroup,
   InputNumber,
   Form,
   FormGroup,
@@ -81,7 +83,7 @@ const components = {
 
 let _vue
 export default {
-  components,
+  ...components,
   install (Vue, options) {
     if (_vue) return
     _vue = Vue

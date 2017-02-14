@@ -10,8 +10,6 @@
 @import "./breadcrumbs";
 @import "./dropdown";
 @import "./card";
-// @import "./forms";
-// @import "./input-group";
 @import "./forms/forms";
 
 @import "./table";
@@ -50,8 +48,6 @@
   @include generate-breadcrumbs;
   @include generate-dropdown;
   @include generate-card;
-  // @include generate-forms;
-  // @include generate-input-group;
   @include generate-form-components;
   @include generate-table;
   @include generate-modal;

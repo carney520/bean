@@ -29,6 +29,21 @@ article
         b-input(placeholder="placeholder", status="info")
 
     .preview
+      .preview-title 按钮组
+      .preview-container
+        b-input-group
+          b-icon(slot="left", name="apple")
+          b-input(placeholder="placeholder")
+
+        b-input-group(color="primary")
+          b-icon(slot="left", name="apple")
+          b-input(placeholder="placeholder")
+
+        b-input-group(color="primary", size="large")
+          b-icon(slot="left", name="apple")
+          b-input(placeholder="placeholder")
+
+    .preview
       .preview-title 数字输入框
       .preview-container.test-input
         b-input-number

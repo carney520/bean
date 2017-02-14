@@ -22,6 +22,11 @@
       disabled: {
         type: Boolean,
         coerce: coerceBoolean
+      },
+
+      selected: {
+        type: Boolean,
+        coerce: coerceBoolean
       }
     },
 
@@ -81,6 +86,10 @@
       this.$watch('label', (val) => {
         if (val != null) this.entry.label = val
       })
+
+      if (this.selected) {
+        this.select(true)
+      }
     },
 
     events: {

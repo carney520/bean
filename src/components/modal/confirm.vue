@@ -7,7 +7,7 @@ div
     hide-header,
     hide-footer)
     .confirm__body
-      icon.confirm__icon(:name="_iconName", :type="_iconColor + ':xlarge'")
+      icon.confirm__icon(:name="_iconName", :type="_iconColor + ':xlarge'", awesome)
       span.confirm__title {{ title }}
       p.confirm__content {{ content }}
       .confirm__footer 

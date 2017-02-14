@@ -1,5 +1,5 @@
 <template lang="jade">
-  dropdown(v-ref:dropdown, :disabled="disabled", :dropdown-style="_dropdownStyle")
+  dropdown.form__select.form__datepicker(v-ref:dropdown, :disabled="disabled", :dropdown-style="_dropdownStyle")
     slot
       //- 输入框, 可以传入slot替换
       .form__control(:class="selectClasses")
@@ -23,10 +23,10 @@
               name="times-circle",
               type="button",
               transition="fade",
-              @click.stop.prevent="clear"
-              )
+              @click.stop.prevent="clear",
+              awesome)
           .text-field__addon
-            icon.icon-inset-control(name="calendar-o")
+            icon.icon-inset-control(name="calendar-o", awesome)
     rangepicker-pane(
       slot="menu",
       v-ref:pane,
@@ -46,8 +46,7 @@
       :show-disabled-item="showDisabledItem",
       :show-seconds="showSeconds",
       :today-text="todayText",
-      :value="value",
-      )
+      :value="value")
 </template>
 
 <script>

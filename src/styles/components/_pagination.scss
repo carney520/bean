@@ -40,11 +40,11 @@ $pagination-item-ellipsis-color: $black !default;
   // apply to ul
   margin-left: 0;
   margin-bottom: $pagination-margin-bottom;
+  font-size: map-get($pagination-sizes, default);
 }
 
 %pagination-item {
   display: inline-block;
-  font-size: map-get($pagination-sizes, default);
   margin-right: $pagination-item-gutter;
   padding: $pagination-item-padding;
   user-select: none;
@@ -83,6 +83,13 @@ $pagination-item-ellipsis-color: $black !default;
 @mixin generate-pagination {
   @include block(pagination) {
     @include pagination-base;
+
+    // size
+    @each $name, $size in map-remove($pagination-sizes, default) {
+      @include modifier($name) {
+        font-size: $size;
+      }
+    }
 
     @include element(item) {
       @include pagination-item;

@@ -1,7 +1,7 @@
 <template lang="jade">
   .message(transition="slide", v-show="show")
     .message__body
-      icon.message__icon(:name="_iconName", :color="_iconColor", :loading="type === 'loading'")
+      icon.message__icon(:name="_iconName", :color="_iconColor", :loading="type === 'loading'", awesome)
       span.message__content {{ content }}
 </template>
 

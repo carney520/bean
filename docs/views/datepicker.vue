@@ -25,5 +25,16 @@ article
     .preview
       .preview-title 选择时间范围
       .preview-container.test-checkbox
-        b-rangepicker
+        b-rangepicker(:value.sync="range")
+        code {{ range | json }}
 </template>
+
+<script>
+  export default {
+    data () {
+      return {
+        range: null
+      }
+    }
+  }
+</script>

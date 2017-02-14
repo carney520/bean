@@ -2,11 +2,11 @@
   @include block(messages) {
     position: fixed;
     top: 0;
-    z-index: 1000;
     width: 100%;
     left: 0;
     top: 16px;
     font-size: .93rem;
+    z-index: $z-message;
   }
 
   @include block(message) {
