@@ -17,7 +17,7 @@ TODO
           textarea.text-field__input(
             v-el:input,
             :disabled="disabled",
-            v-model="value",
+            v-model="_value",
             :autofocus="autofocus",
             @focus="_onFocus",
             @blur="_onBlur",
@@ -30,7 +30,7 @@ TODO
           input.text-field__input(
             v-el:input,
             :type="_type",
-            v-model="value",
+            v-model="_value",
             :disabled="disabled",
             :autofocus="autofocus",
             @focus="_onFocus",
@@ -49,7 +49,7 @@ TODO
 <script>
   import TextField from '../text-field'
   import FeedbackIcons from './feedback-icons'
-  import { coerceNumber } from '../../_helpers/coerces'
+  import { coerceNumber, coerceBoolean } from '../../_helpers/coerces'
   import {Icon} from '../../icon'
 
   export default {
@@ -89,6 +89,10 @@ TODO
         validator (value) {
           return [undefined, 'success', 'warning', 'error', 'alert', 'info'].indexOf(value) !== -1
         }
+      },
+      number: {
+        type: Boolean,
+        coerce: coerceBoolean
       }
     },
 
@@ -101,9 +105,27 @@ TODO
     },
 
     computed: {
+      _value: {
+        get () {
+          return this.value
+        },
+        set (value) {
+          if (this.number) {
+            let num = Number(value)
+            if (Number.isNaN(num)) {
+              this.value = value
+            } else {
+              this.value = num
+            }
+          } else {
+            this.value = value
+          }
+        }
+      },
       controlClasses () {
         return [
           this.size && `--${this.size}`,
+          this.type,
           {
             'is-focus': this.isFocus,
             'is-disabled': this.disabled

@@ -1,0 +1,10 @@
+@mixin generate-select {
+  @include block(form) {
+    @include element(select) {
+      .select-content > .menu {
+        max-height: 17em;
+        overflow-y: auto;
+      }
+    }
+  }
+}

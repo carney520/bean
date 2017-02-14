@@ -1,6 +1,6 @@
 <!-- 级联下拉列表 -->
 <template lang="jade">
-  dropdown.form__select(v-ref:dropdown, :disabled="disabled", :dropdown-style="_dropdownStyle")
+  dropdown.form__select.text-field(v-ref:dropdown, :disabled="disabled", :dropdown-style="_dropdownStyle")
     //- 展开 slot
     slot
       .form__control-wrapper

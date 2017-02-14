@@ -14,6 +14,7 @@
 @import "./datepicker";
 @import "./timepicker";
 @import "./rangepicker";
+@import "./select";
 
 @mixin generate-form-components {
   @include generate-form-base;
@@ -32,4 +33,5 @@
   @include generate-datepicker;
   @include generate-timepicker;
   @include generate-rangepicker;
+  @include generate-select;
 }

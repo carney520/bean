@@ -102,7 +102,6 @@
       // 一些从后端返回的数据是秒为单位的时间戳
       isSecond: {
         type: Boolean,
-        default: false,
         coerce: coerceBoolean
       },
 

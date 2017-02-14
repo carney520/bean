@@ -167,7 +167,8 @@ export default {
       if (this.multiple) {
         return this.selected && (this.selected.indexOf(item) !== -1)
       } else {
-        return this.selected === item
+        // eslint-disable-next-line
+        return this.selected == item
       }
     },
 

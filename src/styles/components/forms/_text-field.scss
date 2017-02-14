@@ -17,13 +17,16 @@
 
     @include element(inner) {
       @include ghost-center-wrapper;
-      padding-right: 2em;
       position: relative;
       display: table-cell;
       width: 100%;
       > .icon {
         margin-top: .08em;
       }
+    }
+
+    &:not(.textarea) .text-field__inner {
+      padding-right: 2em;
     }
 
     @include element(input) {

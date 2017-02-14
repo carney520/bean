@@ -17,7 +17,7 @@ article
       .preview-container.test-form
         b-form
           b-form-group
-            b-label Name:
+            b-label(required) Name:
             b-input
           b-form-group
             b-label Password:

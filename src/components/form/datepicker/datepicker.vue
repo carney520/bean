@@ -1,5 +1,5 @@
 <template lang="jade">
-  dropdown.form__select(v-ref:dropdown, :disabled="disabled", :dropdown-style="_dropdownStyle")
+  dropdown.form__select.text-field(v-ref:dropdown, :disabled="disabled", :dropdown-style="_dropdownStyle")
     slot
       //- 输入框, 可以传入slot替换
       .form__control(:class="selectClasses")
@@ -23,10 +23,10 @@
               name="times-circle",
               type="button",
               transition="fade",
-              @click.stop.prevent="clear"
-              )
+              awesome,
+              @click.stop.prevent="clear")
           .text-field__addon
-            icon.icon-inset-control(name="calendar-o")
+            icon.icon-inset-control(name="calendar-o", awesome)
     datepicker-pane(
       slot="menu",
       v-ref:pane,
@@ -41,14 +41,14 @@
       :show-adjacent-month="showAdjacentMonth",
       :today-text="todayText",
       :value.sync="value",
-      @onchange="_onChange"
-      )
+      @onchange="_onChange")
 </template>
 
 <script>
   import TextField from '../text-field'
   import DatepickerPane from './pane'
   import {Dropdown} from '../../dropdown'
+  import { coerceBoolean } from '../../_helpers/coerces'
   import {Icon} from '../../icon'
 
   export default {
@@ -61,7 +61,7 @@
       Dropdown,
       Icon
     },
-    props: [
+    props: {
       // in Control
       // - name
       // - value
@@ -71,16 +71,25 @@
       // in TextField
       // - placeholder
       // - allowClear
-      'format',
-      'isSecond',
-      'dayNames',
-      'monthNames',
-      'todayText',
-      'nowText',
-      'dateFilter',
-      'allowTimepicker',
-      'showAdjacentMonth'
-    ],
+      format: String,
+      isSecond: {
+        type: Boolean,
+        coerce: coerceBoolean
+      },
+      dayNames: Array,
+      monthNames: Array,
+      todayText: String,
+      nowText: String,
+      dateFilter: Function,
+      allowTimepicker: {
+        type: Boolean,
+        coerce: coerceBoolean
+      },
+      showAdjacentMonth: {
+        type: Boolean,
+        coerce: coerceBoolean
+      }
+    },
 
     computed: {
       selectClasses () {

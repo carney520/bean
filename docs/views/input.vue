@@ -44,6 +44,10 @@ article
           b-input(placeholder="placeholder")
 
     .preview
+      .preview-title 转换
+      .preview-container.test-input
+         b-input(placeholder="placeholder", number, :value.sync="three")
+    .preview
       .preview-title 数字输入框
       .preview-container.test-input
         b-input-number
@@ -54,7 +58,8 @@ article
     data () {
       return {
         one: 'hello',
-        two: ''
+        two: '',
+        three: 12
       }
     }
   }
