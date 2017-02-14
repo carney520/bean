@@ -86,7 +86,8 @@ $day-disabled-color: $medium-gray !default;
     }
 
     @include element(week) {
-      padding: .4em 0;
+      padding: .4em 0 !important;
+      border: none !important;
     }
 
     @include element(date-range) {
@@ -94,7 +95,8 @@ $day-disabled-color: $medium-gray !default;
     }
 
     @include element(day) {
-      padding: .2em;
+      padding: .2em !important;
+      border: none !important;
       cursor: pointer;
 
 

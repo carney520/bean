@@ -2,6 +2,7 @@ import installMixins from './lib/mixins'
 
 // import scss
 import './styles/style'
+import { Dropdown } from './components/dropdown'
 import { Button, ButtonGroup } from './components/button'
 import { Grid, Cell } from './components/grid'
 import { Icon } from './components/icon'
@@ -41,6 +42,7 @@ import { Nprogress } from './components/nprogress'
 import { Step, Steps } from './components/steps'
 
 const components = {
+  Dropdown,
   Alert,
   Button,
   ButtonGroup,
