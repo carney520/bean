@@ -6,12 +6,13 @@
       .popover__title
         slot(name="title")
           | {{ title }}
-      .popover__content
+      .popover__content(v-if="lazy ? shown : true")
         slot(name="content")
 </template>
 
 <script>
   import tooltipMixin from '../_mixins/tooltip'
+  import { coerceBoolean } from '../_helpers/coerces'
 
   export default {
     mixins: [tooltipMixin],
@@ -19,6 +20,10 @@
       title: String,
       trigger: {
         default: 'click'
+      },
+      lazy: {
+        type: Boolean,
+        coerce: coerceBoolean
       }
     }
   }

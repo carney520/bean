@@ -163,6 +163,12 @@ const routeMap = {
             component: (resolve) => {
               require(['views/nprogress'], resolve)
             }
+          },
+          '/steps': {
+            name: 'steps',
+            component: (resolve) => {
+              require(['views/steps'], resolve)
+            }
           }
         }
       }

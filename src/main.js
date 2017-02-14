@@ -38,6 +38,7 @@ import { Breadcrumbs, BreadcrumbItem } from './components/breadcrumbs'
 import { installMessage } from './components/message'
 import { installNotification } from './components/notification'
 import { Nprogress } from './components/nprogress'
+import { Step, Steps } from './components/steps'
 
 const components = {
   Alert,
@@ -78,7 +79,9 @@ const components = {
   TabItem,
   Breadcrumbs,
   BreadcrumbItem,
-  Nprogress
+  Nprogress,
+  Steps,
+  Step
 }
 
 let _vue

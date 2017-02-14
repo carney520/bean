@@ -35,6 +35,7 @@
 @import "./message";
 @import "./nprogress";
 @import "./spinners/index";
+@import "./steps";
 
 @mixin generate-component-classes {
   //grid

@@ -119,6 +119,10 @@ div
               {
                 title: 'Nprogress 全局进度条',
                 link: 'nprogress'
+              },
+              {
+                title: 'Steps 步骤',
+                link: 'steps'
               }
             ]
           },
