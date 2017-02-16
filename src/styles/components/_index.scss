@@ -18,7 +18,6 @@
 @import "./pagination";
 @import "./icon-group";
 @import "./notification";
-@import "./loaders";
 @import "./tooltip";
 @import "./popover";
 @import "./popover-confirm";
@@ -56,7 +55,6 @@
   @include generate-pagination;
   @include generate-icon-group;
   @include generate-notification;
-  @include generate-loaders;
   @include generate-tooltip;
   @include generate-popover;
   @include generate-popover-confirm;

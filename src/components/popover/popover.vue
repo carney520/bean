@@ -8,6 +8,7 @@
           | {{ title }}
       .popover__content(v-if="lazy ? shown : true")
         slot(name="content")
+        slot
 </template>
 
 <script>
