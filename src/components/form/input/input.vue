@@ -190,6 +190,12 @@ TODO
         this.hidePassword = !this.hidePassword
         this.focus()
       }
+    },
+    ready () {
+      if (this.number && typeof this.value !== 'number') {
+        let num = Number(this.value)
+        if (!Number.isNaN(num)) this.value = num
+      }
     }
   }
 </script>

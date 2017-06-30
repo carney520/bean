@@ -1,6 +1,6 @@
 {
   "name": "bean",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "components for Vue",
   "main": "src/main.js",
   "directories": {
@@ -9,6 +9,7 @@
   "scripts": {
     "start": "rimraf site && mkdir site && cross-env NODE_ENV=development webpack-dev-server --hot --inline --content-base ./site --config ./build/webpack.config.dev.js",
     "build": "rimraf dist && cross-env NODE_ENV=production webpack --config ./build/webpack.config.npm.js",
+    "build-doc": "rimraf site && cross-env NODE_ENV=production webpack --config ./build/webpack.config.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

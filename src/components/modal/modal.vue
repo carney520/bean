@@ -49,6 +49,7 @@
         default: '取消'
       },
       beforeClose: Function,
+      beforeConfirm: Function,
       hideHeader: {
         type: Boolean,
         coerce: coerceBoolean
@@ -106,7 +107,13 @@
       },
 
       ok () {
-        this.close('confirm')
+        if (this.beforeConfirm) {
+          this.beforeConfirm(() => {
+            this.close('confirm')
+          })
+        } else {
+          this.close('confirm')
+        }
       },
 
       confirm () {
