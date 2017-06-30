@@ -1,5 +1,5 @@
 /*!
- * Bean v0.1.0
+ * Bean v0.2.0
  * Licensed under the MIT license.
  */
 (function webpackUniversalModuleDefinition(root, factory) {

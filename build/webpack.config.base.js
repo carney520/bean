@@ -1,5 +1,5 @@
 /**
- * generate docs
+ * generate example
  */
 var path = require('path')
 var pkg = require('../package.json')
@@ -9,11 +9,11 @@ var helpers = require('./helpers')
 
 module.exports = {
   entry: {
-    app: './docs/main.js'
+    app: './example/main.js'
   },
 
   output: {
-    path: path.resolve(__dirname, '../site'),
+    path: path.resolve(__dirname, '../docs'),
     filename: '[name].js'
   },
 
@@ -21,9 +21,9 @@ module.exports = {
     fallback: [path.join(__dirname, '../node_modules')],
     extensions: ['', '.js', '.vue'],
     alias: {
-      'src': path.resolve(__dirname, '../docs'),
-      'views': path.join(__dirname, '../docs/views'),
-      'assets': path.join(__dirname, '../docs/assets')
+      'src': path.resolve(__dirname, '../example'),
+      'views': path.join(__dirname, '../example/views'),
+      'assets': path.join(__dirname, '../example/assets')
     }
   },
 
@@ -66,7 +66,7 @@ module.exports = {
       {
         title: pkg.name,
         filename: 'index.html',
-        template: path.join(projectRoot, 'docs/assets/index.jade'),
+        template: path.join(projectRoot, 'example/assets/index.jade'),
         inject: true
       }
     )
@@ -86,7 +86,7 @@ module.exports = {
   },
   sassLoader: {
     includePaths: [
-      path.join(projectRoot, 'docs/assets/sass'),
+      path.join(projectRoot, 'example/assets/sass'),
       path.dirname(require.resolve('sassbean')) // sass-bean
     ]
   }
